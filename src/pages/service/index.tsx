@@ -1,5 +1,5 @@
-import {Component} from 'react';
-import { Button, Input } from 'antd';
+import { Component } from 'react';
+// import { Button, Input } from 'antd';
 
 interface Item {
     name: string;
@@ -14,7 +14,6 @@ interface State {
 }
 
 class Service extends Component<Props, State> {
-
     static title: string = '';
 
     public state: State = {
@@ -22,41 +21,38 @@ class Service extends Component<Props, State> {
         list: [
             {
                 name: 'Lancy',
-                age: 199
+                age: 199,
             },
             {
                 name: 'Bob',
-                age: 13
+                age: 13,
             },
             {
                 name: 'Tom',
-                age: 12
-            }
-        ]
+                age: 12,
+            },
+        ],
     };
 
     public componentDidMount(): void {}
 
     protected buttonHandle(): void {
-        let j = this.state.Index
+        let j = this.state.Index;
         j++;
         this.setState({
-            Index: j
+            Index: j,
         });
     }
 
-    public render():JSX.Element {
+    public render(): JSX.Element {
         return (
-            <div className='define-container'>
-                    {
-                        this.state.list.map( (item: Item, index: number) => (
-                                <p key={index}>
-                                    <span>{item.name}</span>
-                                    <span>{item.age}</span>
-                                </p>
-                            )
-                        )
-                    }
+            <div className="define-container">
+                {this.state.list.map((item: Item, index: number) => (
+                    <p key={index}>
+                        <span>{item.name}</span>
+                        <span>{item.age}</span>
+                    </p>
+                ))}
             </div>
         );
     }
