@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, RefObject } from 'react';
 import {
     Input,
     Button,
@@ -19,6 +19,7 @@ interface Props extends FormProps {
 interface State {
     name: string;
     password: string;
+    btnLoading: boolean;
     token?: string;
 }
 
@@ -65,27 +66,36 @@ class Login extends Component<Props, State> {
         },
     ];
 
-    private formRef = React.createRef<FormInstance>();
+    private formRef: RefObject<FormInstance> = React.createRef<FormInstance>();
 
     public state: State = {
         name: '',
         password: '',
+        btnLoading: !1,
     };
 
     private submitHandle = () => {
         this.formRef
             .current!.validateFields()
             .then((values: State) => {
-                // console.log(values);
+                this.setState({
+                    btnLoading: !0,
+                });
                 if (values) {
                 }
             })
             .catch((err: any) => {
                 console.error(err);
+            })
+            .finally(() => {
+                this.setState({
+                    btnLoading: !1,
+                });
             });
     };
 
     public render(): JSX.Element {
+        const { btnLoading } = this.state;
         return (
             <div className={style['login-container']}>
                 <div className={style.logo}>
@@ -105,7 +115,11 @@ class Login extends Component<Props, State> {
                         </FormItem>
                     ))}
                     <FormItem {...tailLayout}>
-                        <Button type="primary" onClick={this.submitHandle}>
+                        <Button
+                            type="primary"
+                            onClick={this.submitHandle}
+                            loading={btnLoading}
+                        >
                             Submit
                         </Button>
                     </FormItem>
