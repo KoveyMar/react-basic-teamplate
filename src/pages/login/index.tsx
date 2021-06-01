@@ -1,4 +1,6 @@
 import React, { Component, RefObject } from 'react';
+import { history, ConnectProps, LoginTypes } from 'umi';
+import { connect } from 'dva';
 import {
     Input,
     Button,
@@ -12,12 +14,13 @@ import {
 import style from '@/styles/login.less';
 import logo from '@/assets/img/logo.svg';
 
-interface Props extends FormProps {
+interface Props extends FormProps, ConnectProps {
     formRef: FormInstance;
+    login: LoginTypes;
 }
 
 interface State {
-    name: string;
+    username: string;
     password: string;
     btnLoading: boolean;
     token?: string;
@@ -69,9 +72,17 @@ class Login extends Component<Props, State> {
     private formRef: RefObject<FormInstance> = React.createRef<FormInstance>();
 
     public state: State = {
-        name: '',
+        username: '',
         password: '',
         btnLoading: !1,
+    };
+
+    private sendData = async () => {
+        return {
+            code: 200,
+            data: null,
+            message: '请求成功',
+        };
     };
 
     private submitHandle = () => {
@@ -81,6 +92,9 @@ class Login extends Component<Props, State> {
                 this.setState({
                     btnLoading: !0,
                 });
+                // if (values.username == 'admin' && values.password == '123456') {
+                //     history.push('/home');
+                // }
                 if (values) {
                 }
             })
@@ -96,6 +110,8 @@ class Login extends Component<Props, State> {
 
     public render(): JSX.Element {
         const { btnLoading } = this.state;
+        // const {  } = this.props.name;
+        console.log(this.props);
         return (
             <div className={style['login-container']}>
                 <div className={style.logo}>
@@ -129,4 +145,9 @@ class Login extends Component<Props, State> {
     }
 }
 
-export default Login;
+// const
+
+export default connect(({ login }: { login: LoginTypes }) => ({
+    login,
+}))(Login);
+// export default Login;
