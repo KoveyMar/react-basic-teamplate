@@ -1,5 +1,5 @@
 import React, { Component, RefObject } from 'react';
-import { history, ConnectProps, LoginTypes } from 'umi';
+import { history, ConnectProps, LoginTypes, Dispatch } from 'umi';
 import { connect } from 'dva';
 import {
     Input,
@@ -10,6 +10,7 @@ import {
     FormProps,
     FormItemProps,
     FormInstance,
+    message,
 } from 'antd';
 import style from '@/styles/login.less';
 import logo from '@/assets/img/logo.svg';
@@ -17,13 +18,18 @@ import logo from '@/assets/img/logo.svg';
 interface Props extends FormProps, ConnectProps {
     formRef: FormInstance;
     login: LoginTypes;
+    dispatch: Dispatch;
 }
 
 interface State {
-    username: string;
-    password: string;
+    username?: string;
+    password?: string;
     btnLoading: boolean;
     token?: string;
+}
+
+interface ItemTypes extends FormItemProps {
+    type?: string;
 }
 
 const FormItem = Form.Item;
@@ -44,7 +50,7 @@ const tailLayout = {
 };
 
 class Login extends Component<Props, State> {
-    private FormList: Array<FormItemProps> = [
+    private FormList: Array<ItemTypes> = [
         {
             label: '用户名',
             name: 'username',
@@ -59,6 +65,7 @@ class Login extends Component<Props, State> {
         {
             label: '密码',
             name: 'password',
+            type: 'password',
             ...formItemLayout,
             rules: [
                 {
@@ -72,30 +79,26 @@ class Login extends Component<Props, State> {
     private formRef: RefObject<FormInstance> = React.createRef<FormInstance>();
 
     public state: State = {
-        username: '',
-        password: '',
         btnLoading: !1,
     };
 
-    private sendData = async () => {
-        return {
-            code: 200,
-            data: null,
-            message: '请求成功',
-        };
-    };
-
     private submitHandle = () => {
+        const { dispatch } = this.props;
         this.formRef
             .current!.validateFields()
             .then((values: State) => {
                 this.setState({
                     btnLoading: !0,
                 });
-                // if (values.username == 'admin' && values.password == '123456') {
-                //     history.push('/home');
-                // }
                 if (values) {
+                    dispatch({
+                        type: 'login/getData',
+                        payload: values,
+                    }).then((res: any) => {
+                        if (res.code !== 200) return message.error(res.message);
+                        message.success(res.message);
+                        history.push('/home');
+                    });
                 }
             })
             .catch((err: any) => {
@@ -110,8 +113,6 @@ class Login extends Component<Props, State> {
 
     public render(): JSX.Element {
         const { btnLoading } = this.state;
-        // const {  } = this.props.name;
-        console.log(this.props);
         return (
             <div className={style['login-container']}>
                 <div className={style.logo}>
@@ -125,9 +126,12 @@ class Login extends Component<Props, State> {
                     </Row>
                 </div>
                 <Form ref={this.formRef}>
-                    {this.FormList.map((item: FormItemProps, index: number) => (
+                    {this.FormList.map((item: ItemTypes, index: number) => (
                         <FormItem key={index} {...item}>
-                            <Input placeholder={`请输入${item.name}`} />
+                            <Input
+                                type={item.type || ''}
+                                placeholder={`请输入${item.name}`}
+                            />
                         </FormItem>
                     ))}
                     <FormItem {...tailLayout}>
@@ -145,9 +149,10 @@ class Login extends Component<Props, State> {
     }
 }
 
-// const
+const mapStateToProps = ({ login }: { login: LoginTypes }) => {
+    return {
+        login,
+    };
+};
 
-export default connect(({ login }: { login: LoginTypes }) => ({
-    login,
-}))(Login);
-// export default Login;
+export default connect(mapStateToProps)(Login);

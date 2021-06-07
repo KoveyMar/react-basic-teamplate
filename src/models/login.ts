@@ -1,5 +1,6 @@
+import { Model, routerRedux } from 'dva';
 import { Action } from '@/.umi/plugin-dva/connect';
-import { Model } from 'dva';
+import { Response } from '@/types/schemes';
 
 export interface LoginTypes {
     username: string | null;
@@ -16,6 +17,22 @@ export interface LoginTypes {
  *
  *
  */
+
+const sendData = async (payload: LoginTypes) => {
+    const { username, password } = payload;
+    return username === 'admin' && password === '888888'
+        ? {
+              code: 200,
+              data: payload,
+              message: '登录成功',
+          }
+        : {
+              code: 500,
+              data: payload,
+              message: '用户名或密码错误,登录失败',
+          };
+};
+
 const login: Model = {
     // 当前 Model 的名称。整个应用的 State，由多个小的 Model 的 State 以 namespace 为 key 合成
     namespace: 'login',
@@ -34,12 +51,16 @@ const login: Model = {
     },
     // Action 处理器，处理异步动作
     effects: {
-        *getData(action: any, { call, put }) {
-            const { data } = yield call(action);
-            yield put({
-                type: 'saveInfo',
-                payload: data,
-            });
+        *getData({ payload }, { call, put }) {
+            const { code, data, message } = yield call(sendData, payload);
+            if (code === 200) {
+                yield put({
+                    type: 'saveInfo',
+                    payload: data,
+                });
+                // yield put( routerRedux.push('/home') );
+            }
+            return { code, data, message };
         },
     },
     /**
@@ -49,7 +70,9 @@ const login: Model = {
      *
      */
     subscriptions: {
-        setup({ dispatch, history }) {},
+        setup({ dispatch, history }) {
+            return history.listen;
+        },
     },
 };
 
