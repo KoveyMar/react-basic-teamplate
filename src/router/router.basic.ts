@@ -18,6 +18,7 @@ const routes: Array<RouterTypes> = [
         path: '/home',
         title: '首页',
         component: '@/pages/index',
+        // wrappers: ['@/router/router.utils'],
         // exact: true,
         routes: [
             {
@@ -39,6 +40,11 @@ const routes: Array<RouterTypes> = [
                 exact: true,
             },
         ],
+    },
+    {
+        path: '/error',
+        title: '发生某项错误',
+        component: '@/pages/error/index',
     },
 ];
 

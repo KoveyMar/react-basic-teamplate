@@ -1,4 +1,4 @@
-import { RouterTypes } from '@/router/routerBasic';
+import { RouterTypes } from '@/router/router.basic';
 
 const menu: RouterTypes = [
     {

@@ -1,6 +1,6 @@
-import { Model, routerRedux } from 'dva';
-import { Action } from '@/.umi/plugin-dva/connect';
-import { Response } from '@/types/schemes';
+import { Model } from 'dva';
+import { getToken } from '@/utils/RandomValue';
+import { Response, ActPayLoad } from '@/types/schemes';
 
 export interface LoginTypes {
     username: string | null;
@@ -45,21 +45,29 @@ const login: Model = {
     // Action 处理器，处理同步动作，用来算出最新的 State
     reducers: {
         //  state为初始值,   action为新数据
-        saveInfo(state: LoginTypes, action: Action<any>) {
-            return { ...state, ...action };
+        saveInfo(
+            state: LoginTypes,
+            action: ActPayLoad<any, LoginTypes>,
+        ): LoginTypes {
+            const { payload } = action;
+            return { ...state, ...payload };
         },
     },
     // Action 处理器，处理异步动作
     effects: {
-        *getData({ payload }, { call, put }) {
-            const { code, data, message } = yield call(sendData, payload);
+        *request({ payload }, { call, put, select }) {
+            let { code, data, message } = yield call(sendData, payload);
             if (code === 200) {
                 yield put({
                     type: 'saveInfo',
-                    payload: data,
+                    payload: {
+                        ...data,
+                        token: getToken(),
+                    },
                 });
-                // yield put( routerRedux.push('/home') );
             }
+            const { token } = yield select((state: any) => state.login);
+            data = { ...data, token };
             return { code, data, message };
         },
     },

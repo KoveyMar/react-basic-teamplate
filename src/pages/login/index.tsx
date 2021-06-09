@@ -14,6 +14,8 @@ import {
 } from 'antd';
 import style from '@/styles/login.less';
 import logo from '@/assets/img/logo.svg';
+import { APP_TOKEN } from '@/config/global';
+import { setLocalStore } from '@/utils/storage';
 
 interface Props extends FormProps, ConnectProps {
     formRef: FormInstance;
@@ -92,17 +94,20 @@ class Login extends Component<Props, State> {
                 });
                 if (values) {
                     dispatch({
-                        type: 'login/getData',
+                        type: 'login/request',
                         payload: values,
                     }).then((res: any) => {
                         if (res.code !== 200) return message.error(res.message);
+                        // console.log('login', res.data)
+                        const { token } = res.data;
+                        setLocalStore(APP_TOKEN, token);
                         message.success(res.message);
                         history.push('/home');
                     });
                 }
             })
             .catch((err: any) => {
-                console.error(err);
+                // console.error(err);
             })
             .finally(() => {
                 this.setState({

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Layout, Menu, MenuProps } from 'antd';
 import { Link } from 'umi';
 import menu from '@/menu';
-import routes, { RouterTypes } from '@/router/routerBasic';
+import routes, { RouterTypes } from '@/router/router.basic';
 
 interface Props {}
 

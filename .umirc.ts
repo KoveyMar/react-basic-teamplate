@@ -1,5 +1,5 @@
 import { defineConfig } from 'umi';
-import routes from './src/router/routerBasic';
+import routes from './src/router/router.basic';
 
 export default defineConfig({
     publicPath: './',
