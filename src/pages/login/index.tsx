@@ -1,6 +1,5 @@
 import React, { Component, RefObject } from 'react';
-import { history, ConnectProps, LoginTypes, Dispatch } from 'umi';
-import { connect } from 'dva';
+import { history, ConnectProps, LoginTypes, Dispatch, connect } from 'umi';
 import {
     Input,
     Button,
@@ -98,11 +97,12 @@ class Login extends Component<Props, State> {
                         payload: values,
                     }).then((res: any) => {
                         if (res.code !== 200) return message.error(res.message);
-                        // console.log('login', res.data)
                         const { token } = res.data;
                         setLocalStore(APP_TOKEN, token);
                         message.success(res.message);
-                        history.push('/home');
+                        setTimeout(() => {
+                            history.push('/home');
+                        }, 2e2);
                     });
                 }
             })

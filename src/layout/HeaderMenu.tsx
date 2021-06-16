@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Menu } from 'antd';
 import { RouterTypes } from '@/router/router.basic';
+import LogOut from './LogOut';
 
 interface Props {}
 
@@ -30,11 +31,12 @@ class HeaderMenu extends Component<Props, State> {
     public render(): JSX.Element {
         return (
             <Header className="header">
-                <Menu theme="dark" mode="horizontal">
+                {/* <Menu theme="dark" mode="horizontal">
                     {this.MenuList.map((item: ListItem, index: number) => (
                         <Item key={index}>{item.text}</Item>
                     ))}
-                </Menu>
+                </Menu> */}
+                <LogOut />
             </Header>
         );
     }

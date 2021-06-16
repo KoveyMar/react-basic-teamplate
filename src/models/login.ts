@@ -52,6 +52,14 @@ const login: Model = {
             const { payload } = action;
             return { ...state, ...payload };
         },
+        clearInfo(): LoginTypes {
+            const data = {
+                username: null,
+                password: null,
+                token: null,
+            };
+            return data;
+        },
     },
     // Action 处理器，处理异步动作
     effects: {
@@ -69,6 +77,12 @@ const login: Model = {
             const { token } = yield select((state: any) => state.login);
             data = { ...data, token };
             return { code, data, message };
+        },
+        *logOut(action: ActPayLoad<any, LoginTypes>, { call, put, select }) {
+            yield put({
+                type: 'clearInfo',
+            });
+            return {};
         },
     },
     /**
