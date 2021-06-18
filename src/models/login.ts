@@ -1,6 +1,6 @@
 import { Model } from 'dva';
 import { getToken } from '@/utils/RandomValue';
-import { Response, ActPayLoad } from '@/types/schemes';
+import { ActPayLoad } from '@/types/schemes';
 
 export interface LoginTypes {
     username: string | null;

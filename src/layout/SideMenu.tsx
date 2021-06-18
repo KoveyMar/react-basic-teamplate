@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Menu, MenuProps } from 'antd';
 import { Link } from 'umi';
-import menu from '@/menu';
+import menu from '@/layout/menu';
 import routes, { RouterTypes } from '@/router/router.basic';
 
 interface Props {}
