@@ -13,7 +13,7 @@ import {
 } from 'antd';
 import style from '@/styles/login.less';
 import logo from '@/assets/img/logo.svg';
-import { APP_TOKEN } from '@/config/global';
+import { APP_TOKEN } from '@/global';
 import { setLocalStore } from '@/utils/storage';
 
 interface Props extends FormProps, ConnectProps {

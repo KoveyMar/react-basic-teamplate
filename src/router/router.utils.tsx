@@ -1,6 +1,6 @@
 import { Redirect } from 'umi';
 import { getLocalStore } from '@/utils/storage';
-import { APP_TOKEN } from '@/config/global';
+import { APP_TOKEN } from '@/global';
 
 /**
  * @description router 权限控制
