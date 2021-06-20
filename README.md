@@ -30,7 +30,7 @@ Ant-Design 4.15.6
 
 2.js 模块统一使用.ts
 
-3.umi 内置 dva 
+3.umi 内置 dva 参考:https://umijs.org/plugins/plugin-dva
 
 4.复杂数组类型的组件使用HOOK
 

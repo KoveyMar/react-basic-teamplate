@@ -1,0 +1,6 @@
+
+*mockjs
+
+router permission
+
+dva model allGlobal?

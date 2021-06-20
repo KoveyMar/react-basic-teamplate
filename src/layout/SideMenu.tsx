@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Layout, Menu, MenuProps } from 'antd';
 import { Link } from 'umi';
 import menu from '@/layout/menu';
-import routes, { RouterTypes } from '@/router/router.basic';
+import { RouterTypes } from '@/router/router.basic';
 
 interface Props {}
 

@@ -22,7 +22,7 @@ export default defineConfig({
             defer: true,
         },
     ],
-    chainWebpack: (config, { env, webpack, createCSSRule }) => {
+    chainWebpack: async (config, { env, webpack, createCSSRule }) => {
         config.output
             .filename(`${assetDir}/js/[name].[hash:8].js`)
             .chunkFilename(`${assetDir}/js/[name].[contenthash:8].chunk.js`);
@@ -38,35 +38,24 @@ export default defineConfig({
 
         // 修改图片输出目录
         // config.module
-        //     .rule("images")
+        //     .rule('images')
         //     .test(/\.(png|jpe?g|gif|webp|ico|svg)(\?.*)?$/)
-        //     .use("url-loader")
+        //     .use('url-loader')
         //     .loader(require.resolve("url-loader"))
         //     .tap((options) => {
         //         const newOptions = {
         //             ...options,
-        //             name: assetDir + "/img/[name].[hash:8].[ext]",
+        //             name: assetDir + "/images/[name].[hash:8].[ext]",
         //             fallback: {
         //                 ...options.fallback,
         //                 options: {
-        //                     name: assetDir + "/img/[name].[hash:8].[ext]",
+        //                     name: assetDir + "/images/[name].[hash:8].[ext]",
         //                     esModule: false,
         //                 },
         //             },
         //         };
         //         return newOptions;
         //     });
-
-        // // 修改svg输出目录
-        // config.module
-        //     .rule("svg")
-        //     .test(/\.(svg)(\?.*)?$/)
-        //     .use("file-loader")
-        //     .loader(require.resolve("file-loader"))
-        //     .tap((options) => ({
-        //         ...options,
-        //         name: assetDir + "/img/[name].[hash:8].[ext]",
-        //     }));
 
         // // 修改fonts输出目录
         // config.module

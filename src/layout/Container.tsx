@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Layout } from 'antd';
 import Bread from './Bread';
 import SideMenu from './SideMenu';
@@ -9,8 +9,7 @@ interface Props {}
 interface State {}
 
 class Container extends Component<Props, State> {
-
-    public render():JSX.Element {
+    public render(): JSX.Element {
         return (
             <Layout>
                 <SideMenu />
@@ -19,7 +18,7 @@ class Container extends Component<Props, State> {
                     <Content />
                 </Layout>
             </Layout>
-        ); 
+        );
     }
 }
 

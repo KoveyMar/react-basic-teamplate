@@ -1,4 +1,4 @@
-import React, { ClassAttributes, Component } from 'react';
+import { ClassAttributes, Component } from 'react';
 import { Avatar, Dropdown, Menu, Modal } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { history, ConnectProps, LoginTypes, Dispatch, connect } from 'umi';

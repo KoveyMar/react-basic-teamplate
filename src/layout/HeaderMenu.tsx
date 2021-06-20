@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Layout, Menu } from 'antd';
 import { RouterTypes } from '@/router/router.basic';
 import LogOut from './LogOut';

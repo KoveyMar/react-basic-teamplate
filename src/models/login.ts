@@ -8,16 +8,6 @@ export interface LoginTypes {
     token?: string | null;
 }
 
-/**
- * ref
- *
- * model 下定义各个dva 的模块，在pages模块中使用connect进行绑定
- *
- * https://dvajs.com/guide/introduce-class.html#dva-%E5%BA%94%E7%94%A8%E7%9A%84%E6%9C%80%E7%AE%80%E7%BB%93%E6%9E%84%EF%BC%88%E5%B8%A6-model
- *
- *
- */
-
 const sendData = async (payload: LoginTypes) => {
     const { username, password } = payload;
     return username === 'admin' && password === '888888'
