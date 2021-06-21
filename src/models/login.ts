@@ -8,7 +8,7 @@ export interface LoginTypes {
     token?: string | null;
 }
 
-const sendData = async (payload: LoginTypes) => {
+const sendData: Function = async (payload: LoginTypes) => {
     const { username, password } = payload;
     return username === 'admin' && password === '888888'
         ? {

@@ -1,58 +1,49 @@
 import { Component } from 'react';
-import { Table } from 'antd';
-import { ColumnsType } from 'antd/lib/table';
-import { getRandomValue } from '@/utils/RandomValue';
+import { Link, connect, ConnectProps, Dispatch, ErrorTypes } from 'umi';
+import { Result, Button } from 'antd';
 
-interface Props {}
+interface Props extends ConnectProps {
+    error: ErrorTypes;
+    dispatch: Dispatch;
+}
 
-interface State {}
+interface State {
+    info?: string;
+}
 
-class Service extends Component<Props, State> {
-    private columns: ColumnsType<any> = [
-        {
-            key: 'age',
-            dataIndex: 'age',
-            title: 'age',
-        },
-        {
-            key: 'name',
-            dataIndex: 'name',
-            title: 'name',
-        },
-        {
-            key: 'role',
-            dataIndex: 'role',
-            title: 'role',
-        },
-    ];
+class Error extends Component<Props, State> {
+    private HomeBtn: JSX.Element = (
+        <Button type="primary" key="Home">
+            <Link to="/home">Go Home</Link>
+        </Button>
+    );
 
-    protected createData(dataLength: number): Array<any> {
-        let u: Array<any> = [];
-        let j = 0;
-        for (; j < dataLength; j++) {
-            u.push({
-                age: getRandomValue(10),
-                role: 'admin',
-                name: `lancy_${getRandomValue(200)}`,
-                id: j,
-            });
-        }
-        return u;
-    }
-
-    public state: State = {};
+    public state: State = {
+        info: 'Please check and modify the following information before resubmitting.',
+    };
 
     public componentDidMount(): void {}
 
     public render(): JSX.Element {
+        const { info } = this.state;
+        const {
+            error: { code, message },
+        } = this.props;
         return (
-            <Table
-                columns={this.columns}
-                dataSource={this.createData(10)}
-                rowKey={(record: any) => record.id}
-            ></Table>
+            <Result
+                status="error"
+                title={`Submission Failed: ${code} - ${message}`}
+                subTitle={info}
+                extra={this.HomeBtn}
+            />
         );
     }
 }
 
-export default Service;
+const mapStateToProps = ({ error }: { error: ErrorTypes }) => {
+    return {
+        error,
+    };
+};
+
+export default connect(mapStateToProps)(Error);

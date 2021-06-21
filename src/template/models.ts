@@ -12,12 +12,20 @@ import { ActPayLoad } from '@/types/schemes';
  *
  */
 
-interface Types {}
+export interface Types {}
+
+const send: Function = async (params: Types) => {
+    return {};
+};
 
 const template: Model = {
-    // 当前 Model 的名称。整个应用的 State，由多个小的 Model 的 State 以 namespace 为 key 合成
+    /**
+     * @description 当前 Model 的名称。整个应用的 State，由多个小的 Model 的 State 以 namespace 为 key 合成
+     */
     namespace: 'template',
-    //  该 Model 当前的状态。数据保存在这里，直接决定了视图层的输出
+    /**
+     * @description 该 Model 当前的状态。数据保存在这里，直接决定了视图层的输出
+     */
     state: {},
     /**
      * @description Action 处理器，处理同步动作，用来算出最新的 State
@@ -36,10 +44,10 @@ const template: Model = {
      */
     effects: {
         *request({ payload }, { call, put, select }) {
-            yield call();
+            const data = yield call(send, payload);
             yield put({
                 type: 'save',
-                payload: { ...payload },
+                payload: { ...data, ...payload },
             });
             return {};
         },

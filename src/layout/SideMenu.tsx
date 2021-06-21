@@ -10,9 +10,7 @@ interface State {}
 
 interface MenuTypes extends MenuProps {}
 
-const { SubMenu } = Menu;
-
-const MenuItem = Menu.Item;
+const { SubMenu, Item: MenuItem } = Menu;
 
 const { Sider } = Layout;
 
