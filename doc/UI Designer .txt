@@ -5,4 +5,4 @@ router permission
 
 dva model allGlobal?
 
-dva refresh set new data
+*dva refresh set new data

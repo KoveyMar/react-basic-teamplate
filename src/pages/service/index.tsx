@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import styles from '@/styles/service.less';
 
 interface Item {
     name: string;
@@ -45,7 +46,7 @@ class Service extends Component<Props, State> {
 
     public render(): JSX.Element {
         return (
-            <div className="define-container">
+            <div className={styles['define-container']}>
                 {this.state.list.map((item: Item, index: number) => (
                     <p key={index}>
                         <span>{item.name}</span>
