@@ -1,4 +1,10 @@
-import React, { Component, RefObject } from 'react';
+import React, {
+    Component,
+    ReactNode,
+    RefObject,
+    ForwardRefExoticComponent,
+    ComponentClass,
+} from 'react';
 import { history, ConnectProps, LoginTypes, Dispatch, connect } from 'umi';
 import {
     Input,
@@ -11,6 +17,8 @@ import {
     FormInstance,
     message,
 } from 'antd';
+import { InputProps, PasswordProps } from 'antd/lib/input';
+import { UserOutlined } from '@ant-design/icons';
 import style from '@/styles/login.less';
 import logo from '@/assets/img/logo.svg';
 import { APP_TOKEN } from '@/global';
@@ -29,11 +37,19 @@ interface State {
     token?: string;
 }
 
-interface ItemTypes extends FormItemProps {
+interface ItemTypes {
+    props: FormItemProps;
+    render:
+        | ComponentClass<InputProps, any>
+        | ForwardRefExoticComponent<PasswordProps & React.RefAttributes<any>>;
     type?: string;
+    icon?: ReactNode;
+    nodeProps?: InputProps | PasswordProps;
 }
 
 const FormItem = Form.Item;
+
+const { Password: InPassword } = Input;
 
 const formItemLayout = {
     labelCol: {
@@ -53,27 +69,35 @@ const tailLayout = {
 class Login extends Component<Props, State> {
     private FormList: Array<ItemTypes> = [
         {
-            label: '用户名',
-            name: 'username',
-            ...formItemLayout,
-            rules: [
-                {
-                    required: !0,
-                    message: '请输入用户名',
-                },
-            ],
+            props: {
+                label: '用户名',
+                name: 'username',
+                ...formItemLayout,
+                rules: [
+                    {
+                        required: !0,
+                        message: '请输入用户名',
+                    },
+                ],
+            },
+            nodeProps: {
+                suffix: <UserOutlined />,
+            },
+            render: Input,
         },
         {
-            label: '密码',
-            name: 'password',
-            type: 'password',
-            ...formItemLayout,
-            rules: [
-                {
-                    required: !0,
-                    message: '请输入密码',
-                },
-            ],
+            props: {
+                label: '密码',
+                name: 'password',
+                ...formItemLayout,
+                rules: [
+                    {
+                        required: !0,
+                        message: '请输入密码',
+                    },
+                ],
+            },
+            render: InPassword,
         },
     ];
 
@@ -132,11 +156,15 @@ class Login extends Component<Props, State> {
                 </div>
                 <Form ref={this.formRef}>
                     {this.FormList.map((item: ItemTypes, index: number) => (
-                        <FormItem key={index} {...item}>
-                            <Input
-                                type={item.type || ''}
-                                placeholder={`请输入${item.name}`}
-                            />
+                        <FormItem key={index} {...item.props}>
+                            {React.createElement(
+                                item.render,
+                                {
+                                    ...item.nodeProps,
+                                    placeholder: `Please Enter ${item.props.name}`,
+                                },
+                                null,
+                            )}
                         </FormItem>
                     ))}
                     <FormItem {...tailLayout}>

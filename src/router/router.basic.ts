@@ -41,9 +41,14 @@ const routes: Array<RouterTypes> = [
             },
         ],
     },
+    // {
+    //     path: '/error',
+    //     title: '发生某项错误',
+    //     component: '@/pages/error/index',
+    // },
     {
-        path: '/error',
-        title: '发生某项错误',
+        path: '/404',
+        title: '404',
         component: '@/pages/error/index',
     },
 ];

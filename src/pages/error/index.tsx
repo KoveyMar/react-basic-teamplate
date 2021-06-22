@@ -1,5 +1,12 @@
 import { Component } from 'react';
-import { Link, connect, ConnectProps, Dispatch, ErrorTypes } from 'umi';
+import {
+    Link,
+    connect,
+    ConnectProps,
+    Dispatch,
+    ErrorTypes,
+    history,
+} from 'umi';
 import { Result, Button } from 'antd';
 
 interface Props extends ConnectProps {
@@ -18,11 +25,28 @@ class Error extends Component<Props, State> {
         </Button>
     );
 
+    private getPageCode(code: number, dispatch: Dispatch): void {
+        const { location } = history;
+        let C = location.pathname.split('/')[1] !== 'error' ? 404 : code;
+        dispatch({
+            type: 'error/getStatus',
+            payload: {
+                code: C,
+            },
+        });
+    }
+
     public state: State = {
         info: 'Please check and modify the following information before resubmitting.',
     };
 
-    public componentDidMount(): void {}
+    public componentDidMount(): void {
+        const {
+            error: { code },
+            dispatch,
+        } = this.props;
+        this.getPageCode(code, dispatch);
+    }
 
     public render(): JSX.Element {
         const { info } = this.state;

@@ -1,17 +1,20 @@
 import { Model } from 'dva';
 import { Location } from 'umi';
 import { ActPayLoad } from '@/types/schemes';
+import { messageLay } from '@/global/http.status';
 
 export interface ErrorTypes {
-    code?: number;
+    code: number;
     result?: any;
-    message?: string | null | void;
+    message: string | null | void;
 }
 
 const setMessage: Function = async (payload: ErrorTypes | void) => {
+    let code = payload?.code || 404;
+    const message = messageLay[code];
     return {
-        code: 404,
-        message: 'The Source Is Not Found',
+        code,
+        message,
     };
 };
 
@@ -32,7 +35,7 @@ const error: Model = {
         },
     },
     effects: {
-        *getInfo({ payload }, { call, put, select }) {
+        *getStatus({ payload }, { call, put, select }) {
             const data = yield call(setMessage, payload);
             yield put({
                 type: 'save',
@@ -45,9 +48,9 @@ const error: Model = {
         setup({ dispatch, history }) {
             return history.listen((location: Location<any>) => {
                 const l = location.pathname.split('/')[1];
-                if (l == 'error') {
+                if (l === 'error') {
                     dispatch({
-                        type: 'getInfo',
+                        type: 'getStatus',
                         payload: {},
                     });
                 }
