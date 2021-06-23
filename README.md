@@ -34,6 +34,14 @@ Ant-Design 4.15.6
 
 4.复杂数组类型的组件使用HOOK
 
-### 杜绝 .JSX！！！
+### Umi js v3 约定文件夹
+- dist 目录
+执行 umi build 后，产物默认会存放在这里。
+
+- mock 目录
+存储 mock 文件，此目录下所有 js 和 ts 文件会被解析为 mock 文件。
+
+- public 目录
+此目录下所有文件会被 copy 到输出路径。
 
 
