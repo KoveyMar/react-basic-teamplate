@@ -36,6 +36,9 @@ export default defineConfig({
             src: './appConfig.js',
         },
     ],
+    /**
+     * @description --webpack build config
+     */
     chainWebpack: async (config, { env, webpack, createCSSRule }) => {
         if (isEnvProduction) return !1;
         config.output

@@ -103,10 +103,6 @@ class Login extends Component<Props, State> {
 
     private formRef: RefObject<FormInstance> = React.createRef<FormInstance>();
 
-    public state: State = {
-        btnLoading: !1,
-    };
-
     private submitHandle = () => {
         const { dispatch } = this.props;
         this.formRef
@@ -138,6 +134,12 @@ class Login extends Component<Props, State> {
                     btnLoading: !1,
                 });
             });
+    };
+
+    public componentDidMount(): void {}
+
+    public state: State = {
+        btnLoading: !1,
     };
 
     public render(): JSX.Element {
