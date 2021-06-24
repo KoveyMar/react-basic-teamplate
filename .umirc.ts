@@ -3,7 +3,7 @@ import routes from './src/router/router.basic';
 
 const assetDir: string = 'static';
 
-const isEnvProduction: boolean = process.env.NODE_ENV === 'production';
+const isEnvDevelopment: boolean = process.env.NODE_ENV === 'development';
 
 const publicPath = './';
 
@@ -24,7 +24,7 @@ export default defineConfig({
     },
     terserOptions: {
         compress: {
-            drop_console: isEnvProduction,
+            drop_console: !isEnvDevelopment,
         },
     },
     fastRefresh: {},
@@ -40,7 +40,27 @@ export default defineConfig({
      * @description --webpack build config
      */
     chainWebpack: async (config, { env, webpack, createCSSRule }) => {
-        if (isEnvProduction) return !1;
+        if (isEnvDevelopment) return !1;
+        config.merge({
+            optimization: {
+                splitChunks: {
+                    chunks: 'all',
+                    minSize: 30000,
+                    minChunks: 3,
+                    automaticNameDelimiter: '.',
+                    cacheGroups: {
+                        vendor: {
+                            name: 'vendors',
+                            test({ resource }: any) {
+                                return /[\\/]node_modules[\\/]/.test(resource);
+                            },
+                            priority: 10,
+                        },
+                    },
+                },
+            },
+        });
+
         config.output
             .filename(`${assetDir}/js/[name].[hash:8].js`)
             .chunkFilename(`${assetDir}/js/[name].[contenthash:8].chunk.js`);
