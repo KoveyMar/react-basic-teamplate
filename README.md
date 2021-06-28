@@ -17,14 +17,14 @@ $ yarn start
 
 ### React Template
 
-Umi 3.X
+*   Umi 3.X
 
-TypeScript 4.1.2
+*   TypeScript 4.1.2
 
-Ant-Design 4.15.6
+*   Ant-Design 4.15.6
 
 
-基于UMI构建的react 项目基础模板
+### 基于UMI构建的react 项目基础模板
 
 *   `pages` 模块统一使用  `.tsx`
 
