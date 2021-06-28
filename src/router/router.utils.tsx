@@ -9,8 +9,8 @@ import { APP_TOKEN } from '@/global';
  */
 function getAuth(props: any): JSX.Element {
     const T = getLocalStore(APP_TOKEN);
-    let n: JSX.Element;
-    return (n = T ? <Redirect to="/home" /> : <Redirect to="/" />);
+    const { children } = props;
+    return !T ? <Redirect to="/" /> : <>{children}</>;
 }
 
 export default getAuth;

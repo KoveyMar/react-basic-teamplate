@@ -9,7 +9,7 @@ interface State {}
 
 class App extends Component<Props, State> {
     public render(): JSX.Element {
-        const children = this.props.children;
+        const { children } = this.props;
         return (
             <ChildContext.Provider value={children}>
                 <Layout />

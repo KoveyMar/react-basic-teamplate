@@ -5,7 +5,7 @@ interface Props {}
 
 interface State {}
 
-class App extends Component<Props, State> {
+class Loading extends Component<Props, State> {
     public render(): JSX.Element {
         return (
             <div
@@ -21,4 +21,4 @@ class App extends Component<Props, State> {
     }
 }
 
-export default App;
+export default Loading;
