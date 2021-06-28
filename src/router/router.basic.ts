@@ -15,7 +15,6 @@ const routes: Array<RouterTypes> = [
         title: '首页',
         component: '@/pages/index',
         wrappers: ['@/router/router.utils'],
-        // exact: true,
         routes: [
             {
                 path: '/home/service',

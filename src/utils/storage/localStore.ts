@@ -1,3 +1,7 @@
+const nameSpace: string = 'localStorage';
+
+const store: Storage = window.localStorage;
+
 /**
  * @description set localStorage By Key
  * @date 2021-06-09
@@ -6,7 +10,7 @@
  * @returns {void}
  */
 export function setLocalStore(key: string, value: JSON | string | void): void {
-    localStorage.setItem(key, JSON.stringify(value));
+    store.setItem(key, JSON.stringify(value));
 }
 
 /**
@@ -16,7 +20,7 @@ export function setLocalStore(key: string, value: JSON | string | void): void {
  * @returns {any}
  */
 export function getLocalStore(key: string): string | null {
-    const v: string | null = localStorage.getItem(key);
+    const v: string | null = store.getItem(key);
     return v === null ? null : JSON.parse(v);
 }
 
@@ -27,7 +31,7 @@ export function getLocalStore(key: string): string | null {
  * @returns {void}
  */
 export function removeLocalStore(key: string): void {
-    return localStorage.removeItem(key);
+    return store.removeItem(key);
 }
 
 /**
@@ -36,5 +40,5 @@ export function removeLocalStore(key: string): void {
  * @returns {any}
  */
 export function emptyLocalStore(): void {
-    localStorage.clear();
+    store.clear();
 }

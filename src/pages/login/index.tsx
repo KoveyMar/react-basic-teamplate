@@ -42,7 +42,6 @@ interface ItemTypes {
     render:
         | ComponentClass<InputProps, any>
         | ForwardRefExoticComponent<PasswordProps & React.RefAttributes<any>>;
-    type?: string;
     icon?: ReactNode;
     nodeProps?: InputProps | PasswordProps;
 }
