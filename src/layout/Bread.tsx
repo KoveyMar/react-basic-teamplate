@@ -1,7 +1,6 @@
 import { Component } from 'react';
-import { Link, history } from 'umi';
+import { history } from 'umi';
 import { Breadcrumb, BreadcrumbItemProps } from 'antd';
-// import { Route } from 'antd/lib/breadcrumb/Breadcrumb';
 import { RouterTypes } from '@/router/router.basic';
 
 interface Props {}
