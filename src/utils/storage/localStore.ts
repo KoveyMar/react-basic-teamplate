@@ -9,7 +9,10 @@ const store: Storage = window.localStorage;
  * @param {any} value:JSON|string
  * @returns {void}
  */
-export function setLocalStore(key: string, value: JSON | string | void): void {
+export function setLocalStore<K extends string, V = JSON | string | void>(
+    key: K,
+    value: V,
+): void {
     store.setItem(key, JSON.stringify(value));
 }
 
@@ -19,7 +22,7 @@ export function setLocalStore(key: string, value: JSON | string | void): void {
  * @param {any} key:string
  * @returns {any}
  */
-export function getLocalStore(key: string): string | null {
+export function getLocalStore<K extends string>(key: K): string | null {
     const v: string | null = store.getItem(key);
     return v === null ? null : JSON.parse(v);
 }
@@ -30,7 +33,7 @@ export function getLocalStore(key: string): string | null {
  * @param {any} key:string
  * @returns {void}
  */
-export function removeLocalStore(key: string): void {
+export function removeLocalStore<K extends string>(key: K): void {
     return store.removeItem(key);
 }
 

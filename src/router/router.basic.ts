@@ -7,7 +7,12 @@ export interface RouterTypes extends IConfigFromPlugins {
 const routes: Array<RouterTypes> = [
     {
         path: '/',
-        redirect: '/login',
+        redirect: '/redirect',
+    },
+    {
+        path: '/redirect',
+        title: '跳转中',
+        component: '@/pages/redirect/index',
     },
     {
         path: '/login',
