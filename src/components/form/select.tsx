@@ -1,10 +1,8 @@
 import { Component, ComponentClass } from 'react';
 import { Select, SelectProps } from 'antd';
+import { OptionItem } from '@/types/form';
 
-type O = {
-    label: string;
-    value: string;
-};
+type O = OptionItem & {};
 
 export interface Props extends SelectProps<any> {
     Options?: Array<O>;

@@ -41,7 +41,7 @@ class Bread extends Component<Props, State> {
         return (
             <Breadcrumb
                 style={{
-                    padding: '15px 20px 0',
+                    padding: '10px 20px',
                 }}
             >
                 {this.BreadcrumbMenu.map(

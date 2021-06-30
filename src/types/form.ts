@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { FormItemProps } from 'antd';
+import { FormItemProps, ColProps } from 'antd';
 import { InputFace, Props as InputProps } from '@/components/form/input';
 import {
     InPasswordFace,
@@ -46,3 +46,19 @@ export interface FormItemTypes<T = ControllerTypes> {
 export type RenderFace<T = ControllerFace> = {
     [types: string]: T;
 };
+
+/**
+ * @description antd FormItem Col
+ */
+export interface FormItemCol {
+    labelCol?: ColProps;
+    wrapperCol?: ColProps;
+}
+
+/**
+ * @description Radio and Select Options types
+ */
+export interface OptionItem {
+    label: string;
+    value: string;
+}

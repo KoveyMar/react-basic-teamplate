@@ -8,6 +8,7 @@ import { APP_TOKEN } from '@/global';
 import { setLocalStore } from '@/utils/storage';
 import FormList from '@/components/form';
 import { FormItemTypes } from '@/types/form';
+import { formItemLayout, tailLayout } from '@/components/form/style';
 
 interface Props extends FormProps, ConnectProps {
     formRef: FormInstance;
@@ -23,21 +24,6 @@ interface State {
 }
 
 const FormItem = Form.Item;
-
-const formItemLayout = {
-    labelCol: {
-        xs: { span: 24 },
-        sm: { span: 6 },
-    },
-    wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-    },
-};
-
-const tailLayout = {
-    wrapperCol: { offset: 6, span: 16 },
-};
 
 class Login extends Component<Props, State> {
     private FormList: Array<FormItemTypes> = [

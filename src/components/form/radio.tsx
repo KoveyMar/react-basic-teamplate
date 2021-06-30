@@ -1,15 +1,14 @@
 import { Component, ComponentClass } from 'react';
 import { Radio, RadioProps } from 'antd';
+import { OptionItem } from '@/types/form';
 
-type D = {
-    label: string;
-    value: string;
+type D = OptionItem & {
     checked?: boolean;
 };
 
 export interface Props extends RadioProps {
     isButton?: boolean;
-    options: Array<D>;
+    Options: Array<D>;
 }
 
 interface State {}
@@ -22,10 +21,10 @@ class FormRadio extends Component<Props, State> {
     public state: State = {};
 
     public render(): JSX.Element {
-        const { isButton, options, ...GProps } = this.props;
+        const { isButton, Options, ...GProps } = this.props;
         return (
             <Group {...GProps}>
-                {options.map((item: D) =>
+                {Options.map((item: D) =>
                     isButton ? (
                         <RButton value={item.value} key={item.value}>
                             {item.label}
