@@ -13,6 +13,6 @@ class FormInput extends Component<Props, State> {
     }
 }
 
-export type InputFace = ComponentClass<InputProps, any>;
+export type InputFace = ComponentClass<Props, State>;
 
 export default FormInput;

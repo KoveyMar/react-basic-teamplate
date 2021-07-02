@@ -1,12 +1,22 @@
 import { ReactNode } from 'react';
 import { FormItemProps, ColProps } from 'antd';
-import { InputFace, Props as InputProps } from '@/components/form/input';
+import { InputFace, Props as InputProps } from '@/components/form/Input';
 import {
     InPasswordFace,
     Props as InPasswordProps,
-} from '@/components/form/inputPassword';
-import { SelectFace, Props as SelectProps } from '@/components/form/select';
-import { RadioFace, Props as RadioProps } from '@/components/form/radio';
+} from '@/components/form/InPassword';
+import { SelectFace, Props as SelectProps } from '@/components/form/Select';
+import { RadioFace, Props as RadioProps } from '@/components/form/Radio';
+import {
+    DateRangeFace,
+    Props as RangeProps,
+} from '@/components/form/RangePicker';
+import { DateFace, Props as DateProps } from '@/components/form/DatePicker';
+import { SwitchFace, Props as SwitchProps } from '@/components/form/Switch';
+import {
+    CheckboxFace,
+    Props as CheckboxProps,
+} from '@/components/form/Checkbox';
 
 /**
  * @description render Controller types
@@ -15,7 +25,11 @@ export type ControllerFace =
     | InputFace
     | InPasswordFace
     | SelectFace
-    | RadioFace;
+    | RadioFace
+    | DateFace
+    | DateRangeFace
+    | SwitchFace
+    | CheckboxFace;
 
 /**
  * @description Controller Props types
@@ -24,7 +38,11 @@ export type ControllerTypes =
     | InputProps
     | InPasswordProps
     | SelectProps
-    | RadioProps;
+    | RadioProps
+    | DateProps
+    | RangeProps
+    | SwitchProps
+    | CheckboxProps;
 
 /**
  * @description FormItemTypes

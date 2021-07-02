@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Form } from 'antd';
 import { FormItemTypes, RenderFace } from '@/types/form';
-import FormInput from './input';
-import FormInPassword from './inputPassword';
-import FormSelect from './select';
-import FormRadio from './radio';
+import FormInput from './Input';
+import FormInPassword from './InPassword';
+import FormSelect from './Select';
+import FormRadio from './Radio';
+import FormRangeDate from './RangePicker';
+import FormDate from './DatePicker';
+import FormSwitch from './Switch';
+import FormCheckbox from './Checkbox';
 
 interface Props {
     formList: Array<FormItemTypes>;
@@ -19,6 +23,10 @@ const FormRender: RenderFace = {
     InPassword: FormInPassword,
     Select: FormSelect,
     Radio: FormRadio,
+    Date: FormDate,
+    Range: FormRangeDate,
+    Switch: FormSwitch,
+    Checkbox: FormCheckbox,
 };
 
 class FormList extends Component<Props, State> {

@@ -40,6 +40,6 @@ class FormRadio extends Component<Props, State> {
     }
 }
 
-export type RadioFace = ComponentClass<RadioProps, any>;
+export type RadioFace = ComponentClass<Props, State>;
 
 export default FormRadio;
