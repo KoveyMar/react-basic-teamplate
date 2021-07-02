@@ -46,4 +46,9 @@ $ yarn start
 - public 目录
 此目录下所有文件会被 copy 到输出路径。
 
+- src 目录
+    - models
+        umi3 内置dva 2.X，无需初始化dva，及`.umirc.ts`配置，在目录下建立对应模块，以文件名为`namespace`建立dva模块。
+    - pages
+        如果未设置 router，将默认使用pages下的index作为路由
 

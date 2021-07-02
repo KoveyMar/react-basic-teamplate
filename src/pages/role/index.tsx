@@ -48,7 +48,7 @@ class Service extends Component<Props, State> {
         return (
             <Table
                 columns={this.columns}
-                dataSource={this.createData(10)}
+                dataSource={this.createData(20)}
                 rowKey={(record: any) => record.id}
             ></Table>
         );
