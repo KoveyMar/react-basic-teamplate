@@ -32,10 +32,7 @@ class SideMenu extends Component<Props, State> {
                     {menu.map((item: RouterTypes, index: number) =>
                         item.isMenu ? (
                             item.routes && item.routes.length ? (
-                                <SubMenu
-                                    key={`sub${index}`}
-                                    title={item.menuTitle}
-                                >
+                                <SubMenu key={`sub${index}`} title={item.name}>
                                     {item.routes.map(
                                         (
                                             chdMenu: RouterTypes,
@@ -45,7 +42,7 @@ class SideMenu extends Component<Props, State> {
                                                 key={`chilrdren_Menu_@${index}`}
                                             >
                                                 <Link to={chdMenu.path}>
-                                                    {chdMenu.menuTitle}
+                                                    {chdMenu.name}
                                                 </Link>
                                             </MenuItem>
                                         ),
@@ -53,7 +50,7 @@ class SideMenu extends Component<Props, State> {
                                 </SubMenu>
                             ) : (
                                 <MenuItem key={`sub${index}`}>
-                                    <Link to={item.path}>{item.menuTitle}</Link>
+                                    <Link to={item.path}>{item.name}</Link>
                                 </MenuItem>
                             )
                         ) : null,

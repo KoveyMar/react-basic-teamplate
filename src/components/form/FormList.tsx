@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Form } from 'antd';
 import { FormItemTypes, RenderFace } from '@/types/form';
-import FormInput from './Input';
-import FormInPassword from './InPassword';
-import FormSelect from './Select';
-import FormRadio from './Radio';
-import FormRangeDate from './RangePicker';
-import FormDate from './DatePicker';
-import FormSwitch from './Switch';
-import FormCheckbox from './Checkbox';
+import FormInput from './comp/Input';
+import FormInPassword from './comp/InPassword';
+import FormSelect from './comp/Select';
+import FormRadio from './comp/Radio';
+import FormRangeDate from './comp/RangePicker';
+import FormDate from './comp/DatePicker';
+import FormSwitch from './comp/Switch';
+import FormCheckbox from './comp/Checkbox';
 
 interface Props {
     formList: Array<FormItemTypes>;

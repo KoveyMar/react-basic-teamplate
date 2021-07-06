@@ -2,8 +2,10 @@ import { IConfigFromPlugins } from '@@/core/pluginConfig';
 
 export interface RouterTypes extends IConfigFromPlugins {
     isMenu?: boolean;
-    menuTitle?: string;
+    name?: string;
 }
+
+const wrappers: string[] = ['@/router/router.auth'];
 
 const routes: Array<RouterTypes> = [
     {
@@ -22,38 +24,39 @@ const routes: Array<RouterTypes> = [
     {
         path: '/home',
         component: '@/pages/index',
-        wrappers: ['@/router/router.auth'],
+        wrappers,
         isMenu: !0,
-        menuTitle: '首页',
+        name: '首页',
         routes: [
             {
                 path: '/home/service',
                 component: '@/pages/service/index',
                 isMenu: !0,
-                menuTitle: '服务',
+                name: '服务',
                 exact: true,
             },
             {
                 path: '/home/system',
                 component: '@/pages/system/index',
                 isMenu: !0,
-                menuTitle: '系统',
+                name: '系统',
                 exact: true,
             },
             {
                 path: '/home/role',
                 component: '@/pages/role/index',
                 isMenu: !0,
-                menuTitle: '角色',
+                name: '角色',
                 exact: true,
             },
         ],
     },
-    // {
-    //     path: '/error',
-    //     title: '发生某项错误',
-    //     component: '@/pages/error/index',
-    // },
+    {
+        path: '/dataManage',
+        name: '数据管理',
+        wrappers,
+        isMenu: !0,
+    },
     {
         path: '/404',
         title: '404',

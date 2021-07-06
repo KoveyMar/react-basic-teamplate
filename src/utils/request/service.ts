@@ -1,26 +1,15 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { notification } from 'antd';
-import { messageZH } from '@/global/http.status';
+import { BASE_URL as baseURL } from '@/global';
+import { responseError } from './http.u';
 
 /**
  * @description axios
  */
 const service: AxiosInstance = axios.create({
-    baseURL: '/',
-    timeout: 6e3,
+    baseURL,
+    timeout: 6e4,
 });
-
-/**
- * @description 服务响应错误的回调
- * @date 2021-06-18
- * @param {any} status:number
- * @param {any} cb?:Function
- * @returns {any}
- */
-//TODO
-const responseError = (status: number, cb?: Function): void => {
-    messageZH[status];
-};
 
 /**
  * @description    axios request

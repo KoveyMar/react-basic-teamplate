@@ -1,22 +1,31 @@
 import { ReactNode, RefObject } from 'react';
 import { FormItemProps, ColProps, FormInstance } from 'antd';
-import { InputFace, Props as InputProps } from '@/components/form/Input';
+import { InputFace, Props as InputProps } from '@/components/form/comp/Input';
 import {
     InPasswordFace,
     Props as InPasswordProps,
-} from '@/components/form/InPassword';
-import { SelectFace, Props as SelectProps } from '@/components/form/Select';
-import { RadioFace, Props as RadioProps } from '@/components/form/Radio';
+} from '@/components/form/comp/InPassword';
+import {
+    SelectFace,
+    Props as SelectProps,
+} from '@/components/form/comp/Select';
+import { RadioFace, Props as RadioProps } from '@/components/form/comp/Radio';
 import {
     DateRangeFace,
     Props as RangeProps,
-} from '@/components/form/RangePicker';
-import { DateFace, Props as DateProps } from '@/components/form/DatePicker';
-import { SwitchFace, Props as SwitchProps } from '@/components/form/Switch';
+} from '@/components/form/comp/RangePicker';
+import {
+    DateFace,
+    Props as DateProps,
+} from '@/components/form/comp/DatePicker';
+import {
+    SwitchFace,
+    Props as SwitchProps,
+} from '@/components/form/comp/Switch';
 import {
     CheckboxFace,
     Props as CheckboxProps,
-} from '@/components/form/Checkbox';
+} from '@/components/form/comp/Checkbox';
 
 /**
  * @description render Controller types
