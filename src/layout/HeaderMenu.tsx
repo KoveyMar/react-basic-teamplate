@@ -1,32 +1,23 @@
 import { Component } from 'react';
 import { Layout, Menu } from 'antd';
-import { RouterTypes } from '@/router/router.basic';
+// import { RouterTypes } from '@/router/router.basic';
 import LogOut from './LogOut';
+import '@/styles/layout/index.less';
 
 interface Props {}
 
 interface State {}
 
 const { Header } = Layout;
-const { Item } = Menu;
+// const { Item } = Menu;
 
-interface ListItem extends RouterTypes {
-    text: string;
-    key?: string | number;
-}
+// interface ListItem extends RouterTypes {
+//     text: string;
+//     key?: string | number;
+// }
 
 class HeaderMenu extends Component<Props, State> {
-    private MenuList: Array<ListItem> = [
-        {
-            text: '菜单',
-        },
-        {
-            text: '系统',
-        },
-        {
-            text: '用户',
-        },
-    ];
+    // private MenuList: Array<ListItem> = [];
 
     public render(): JSX.Element {
         return (

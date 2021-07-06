@@ -1,14 +1,13 @@
 import React, { Component, RefObject } from 'react';
 import { history, ConnectProps, LoginTypes, Dispatch, connect } from 'umi';
-import { Button, Form, Row, Col, FormProps, FormInstance, message } from 'antd';
+import { Row, Col, FormProps, FormInstance, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import style from '@/styles/login.less';
 import logo from '@/assets/img/logo.svg';
 import { APP_TOKEN } from '@/global';
 import { setLocalStore } from '@/utils/storage';
-import FormList from '@/components/form';
+import { FormClass } from '@/components/form';
 import { FormItemTypes } from '@/types/form';
-import { formItemLayout, tailLayout } from '@/components/form/style';
 
 interface Props extends FormProps, ConnectProps {
     formRef: FormInstance;
@@ -16,14 +15,7 @@ interface Props extends FormProps, ConnectProps {
     dispatch: Dispatch;
 }
 
-interface State {
-    username?: string;
-    password?: string;
-    btnLoading: boolean;
-    token?: string;
-}
-
-const FormItem = Form.Item;
+interface State {}
 
 class Login extends Component<Props, State> {
     private FormList: Array<FormItemTypes> = [
@@ -64,47 +56,28 @@ class Login extends Component<Props, State> {
 
     private formRef: RefObject<FormInstance> = React.createRef<FormInstance>();
 
-    private submitHandle = () => {
+    private submitHandle = (values: LoginTypes) => {
         const { dispatch } = this.props;
-        this.formRef
-            .current!.validateFields()
-            .then((values: State) => {
-                this.setState({
-                    btnLoading: !0,
-                });
-                if (values) {
-                    dispatch({
-                        type: 'login/request',
-                        payload: values,
-                    }).then((res: any) => {
-                        if (res.code !== 200) return message.error(res.message);
-                        const { token } = res.data;
-                        setLocalStore(APP_TOKEN, token);
-                        message.success(res.message);
-                        setTimeout(() => {
-                            history.push('/home');
-                        }, 2e2);
-                    });
-                }
-            })
-            .catch((err: any) => {
-                // console.error(err);
-            })
-            .finally(() => {
-                this.setState({
-                    btnLoading: !1,
-                });
-            });
+
+        dispatch({
+            type: 'login/request',
+            payload: values,
+        }).then((res: any) => {
+            if (res.code !== 200) return message.error(res.message);
+            const { token } = res.data;
+            setLocalStore(APP_TOKEN, token);
+            message.success(res.message);
+            setTimeout(() => {
+                history.push('/home');
+            }, 2e2);
+        });
     };
 
     public componentDidMount(): void {}
 
-    public state: State = {
-        btnLoading: !1,
-    };
+    public state: State = {};
 
     public render(): JSX.Element {
-        const { btnLoading } = this.state;
         return (
             <div className={style['login-container']}>
                 <div className={style.logo}>
@@ -117,18 +90,11 @@ class Login extends Component<Props, State> {
                         </Col>
                     </Row>
                 </div>
-                <Form ref={this.formRef} {...formItemLayout}>
-                    <FormList formList={this.FormList} />
-                    <FormItem {...tailLayout}>
-                        <Button
-                            type="primary"
-                            onClick={this.submitHandle}
-                            loading={btnLoading}
-                        >
-                            Submit
-                        </Button>
-                    </FormItem>
-                </Form>
+                <FormClass
+                    formList={this.FormList}
+                    formRef={this.formRef}
+                    onSubmit={this.submitHandle}
+                />
             </div>
         );
     }

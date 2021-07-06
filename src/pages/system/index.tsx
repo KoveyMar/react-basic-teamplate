@@ -1,29 +1,22 @@
 import React, { Component, RefObject } from 'react';
-import { Button, Form, FormInstance } from 'antd';
-import FormList from '@/components/form';
+import { FormInstance } from 'antd';
+import { FormComp } from '@/components/form';
 import { FormItemTypes } from '@/types/form';
-import { formItemLayout, tailLayout } from '@/components/form/style';
 
 interface Props {}
 
 interface State {
-    Index: number;
     Bound: any;
-    btnLoading: boolean;
 }
-
-const FormItem = Form.Item;
 
 class Service extends Component<Props, State> {
     public state: State = {
-        Index: 2,
         Bound: 'The Radio Is Null',
-        btnLoading: !1,
     };
 
     private formRef: RefObject<FormInstance> = React.createRef<FormInstance>();
 
-    private list: Array<FormItemTypes> = [
+    private formList: Array<FormItemTypes> = [
         {
             LabelProps: {
                 label: 'List',
@@ -115,18 +108,15 @@ class Service extends Component<Props, State> {
 
     public componentDidMount(): void {}
 
-    protected buttonHandle(): void {
-        let j = this.state.Index;
-        j++;
-        this.setState({
-            Index: j,
-        });
+    protected onReset(): void {
+        this.formRef.current!.resetFields();
     }
 
-    private Submit(): void {}
+    private onSubmit(values?: any): void {
+        console.log(values);
+    }
 
     public render(): JSX.Element {
-        const { btnLoading } = this.state;
         return (
             <div
                 className="define-container"
@@ -136,25 +126,11 @@ class Service extends Component<Props, State> {
                     padding: '10px',
                 }}
             >
-                <Form ref={this.formRef} {...formItemLayout}>
-                    <FormList formList={this.list} />
-                    <FormItem {...tailLayout}>
-                        <Button
-                            type="primary"
-                            style={{ marginRight: '10px' }}
-                            onClick={() => this.Submit}
-                            loading={btnLoading}
-                        >
-                            Submit
-                        </Button>
-                        <Button
-                            onClick={() => this.buttonHandle}
-                            loading={btnLoading}
-                        >
-                            Bound
-                        </Button>
-                    </FormItem>
-                </Form>
+                <FormComp
+                    formList={this.formList}
+                    formRef={this.formRef}
+                    onSubmit={this.onSubmit}
+                />
             </div>
         );
     }

@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { FormItemProps, ColProps } from 'antd';
+import { ReactNode, RefObject } from 'react';
+import { FormItemProps, ColProps, FormInstance } from 'antd';
 import { InputFace, Props as InputProps } from '@/components/form/Input';
 import {
     InPasswordFace,
@@ -79,4 +79,14 @@ export interface FormItemCol {
 export interface OptionItem {
     label: string;
     value: string;
+}
+
+/**
+ * @description form component props
+ */
+export interface FormProps {
+    formList: Array<FormItemTypes>;
+    formRef: RefObject<FormInstance>;
+    btn?: ReactNode;
+    onSubmit?: Function;
 }

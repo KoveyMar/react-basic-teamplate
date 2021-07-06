@@ -1,7 +1,8 @@
 import { IConfigFromPlugins } from '@@/core/pluginConfig';
 
 export interface RouterTypes extends IConfigFromPlugins {
-    isRender?: boolean;
+    isMenu?: boolean;
+    menuTitle?: string;
 }
 
 const routes: Array<RouterTypes> = [
@@ -11,7 +12,6 @@ const routes: Array<RouterTypes> = [
     },
     {
         path: '/redirect',
-        title: '跳转中',
         component: '@/pages/redirect/index',
     },
     {
@@ -21,26 +21,30 @@ const routes: Array<RouterTypes> = [
     },
     {
         path: '/home',
-        title: '首页',
         component: '@/pages/index',
         wrappers: ['@/router/router.auth'],
+        isMenu: !0,
+        menuTitle: '首页',
         routes: [
             {
                 path: '/home/service',
-                title: '服务',
                 component: '@/pages/service/index',
+                isMenu: !0,
+                menuTitle: '服务',
                 exact: true,
             },
             {
                 path: '/home/system',
-                title: '系统',
                 component: '@/pages/system/index',
+                isMenu: !0,
+                menuTitle: '系统',
                 exact: true,
             },
             {
                 path: '/home/role',
-                title: '角色',
                 component: '@/pages/role/index',
+                isMenu: !0,
+                menuTitle: '角色',
                 exact: true,
             },
         ],
