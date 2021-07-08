@@ -95,7 +95,7 @@ export interface OptionItem {
  */
 export interface FormProps {
     formList: Array<FormItemTypes>;
-    formRef: RefObject<FormInstance>;
+    formRef: RefObject<FormInstance> | FormInstance<FormInstance<any>>;
     btn?: ReactNode;
     onSubmit?: Function;
 }
