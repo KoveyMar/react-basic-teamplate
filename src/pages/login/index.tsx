@@ -1,7 +1,7 @@
 import React, { Component, RefObject } from 'react';
 import { history, ConnectProps, LoginTypes, Dispatch, connect } from 'umi';
 import { Row, Col, FormProps, FormInstance, message } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import style from '@/styles/login.less';
 import logo from '@/assets/img/logo.svg';
 import { APP_TOKEN } from '@/global';
@@ -10,8 +10,6 @@ import { FormClass } from '@/components/form';
 import { FormItemTypes } from '@/types/form';
 
 interface Props extends FormProps, ConnectProps {
-    formRef: FormInstance;
-    login: LoginTypes;
     dispatch: Dispatch;
 }
 
@@ -31,7 +29,7 @@ class Login extends Component<Props, State> {
                 ],
             },
             NodeProps: {
-                suffix: <UserOutlined />,
+                prefix: <UserOutlined />,
                 placeholder: 'please enter username',
             },
             component: 'Input',
@@ -49,8 +47,10 @@ class Login extends Component<Props, State> {
             },
             NodeProps: {
                 placeholder: 'please enter password',
+                prefix: <LockOutlined />,
+                type: 'password',
             },
-            component: 'InPassword',
+            component: 'Input',
         },
     ];
 
