@@ -7,7 +7,7 @@ import TableOpertion from './comp/TableOpertion';
 
 interface State {
     dataSource: Array<any>;
-    tabelPage: TablePaginationConfig;
+    tablePage: TablePaginationConfig;
 }
 
 const initPage: TablePaginationConfig = {
@@ -21,7 +21,7 @@ function TableList(props: Props, state: State): JSX.Element {
     const { tabelProps, query, opeartion, header, wrapper } = props;
     const { pagination } = tabelProps;
     const [dataSource, setDataSource] = useState<Array<any>>();
-    const [tabelPage, setTabelPage] = useState<TablePaginationConfig>(initPage);
+    const [tablePage, setTablePage] = useState<TablePaginationConfig>(initPage);
 
     /**
      * @description 查询列表
@@ -34,7 +34,7 @@ function TableList(props: Props, state: State): JSX.Element {
             if (res.code === 200 || !!res.success) {
                 const { records, current, size: pageSize, total } = res.result;
                 setDataSource(records);
-                setTabelPage({ ...tabelPage, current, pageSize, total });
+                setTablePage({ ...tablePage, current, pageSize, total });
             }
         });
     };
@@ -62,8 +62,8 @@ function TableList(props: Props, state: State): JSX.Element {
      */
     const getQueryParams = (other?: any): any => {
         let params = {
-            pageNo: tabelPage.current,
-            pageSize: tabelPage.pageSize,
+            pageNo: tablePage.current,
+            pageSize: tablePage.pageSize,
             ...other,
         };
         if (!!pagination) {
@@ -103,7 +103,7 @@ function TableList(props: Props, state: State): JSX.Element {
                 {...tabelProps}
                 pagination={{
                     ...pagination,
-                    ...tabelPage,
+                    ...tablePage,
                     onChange: onPageChange,
                 }}
                 dataSource={dataSource}
