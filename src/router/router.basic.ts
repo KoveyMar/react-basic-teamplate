@@ -1,7 +1,6 @@
 import { IConfigFromPlugins } from '@@/core/pluginConfig';
 
 export interface RouterTypes extends IConfigFromPlugins {
-    isMenu?: boolean;
     name?: string;
 }
 
@@ -18,44 +17,35 @@ const routes: Array<RouterTypes> = [
     },
     {
         path: '/login',
-        title: '登录',
+        // title: '登录',
+        name: '登录',
         component: '@/pages/login/index',
     },
     {
         path: '/home',
         component: '@/pages/index',
         wrappers,
-        isMenu: !0,
         name: '首页',
         routes: [
             {
-                path: '/home/service',
-                component: '@/pages/service/index',
-                isMenu: !0,
-                name: '服务',
-                exact: true,
-            },
-            {
-                path: '/home/system',
-                component: '@/pages/system/index',
-                isMenu: !0,
-                name: '系统',
-                exact: true,
-            },
-            {
-                path: '/home/role',
-                component: '@/pages/role/index',
-                isMenu: !0,
-                name: '角色',
-                exact: true,
+                path: '/',
+                name: '数据管理',
+                routes: [
+                    {
+                        path: '/home/dataManageTemplate',
+                        component: '@/pages/dataManage/template/index',
+                        name: '模板管理',
+                        exact: true,
+                    },
+                    {
+                        path: '/home/dataManageSource',
+                        component: '@/pages/dataManage/dataSource/index',
+                        name: '模型管理',
+                        exact: true,
+                    },
+                ],
             },
         ],
-    },
-    {
-        path: '/dataManage',
-        name: '数据管理',
-        wrappers,
-        isMenu: !0,
     },
     {
         path: '/404',

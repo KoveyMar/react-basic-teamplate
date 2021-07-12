@@ -14,6 +14,9 @@ export const formItemLayout: FormItemCol = {
     },
 };
 
-export const tailLayout = {
+/**
+ * @description --empty label, only FormItem
+ */
+export const tailLayout: FormItemCol = {
     wrapperCol: { offset: 6, span: 16 },
 };

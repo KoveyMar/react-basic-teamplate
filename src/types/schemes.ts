@@ -3,10 +3,11 @@ import { Action } from '@/.umi/plugin-dva/connect';
 /**
  * @description xhr response Data Type
  */
-export interface SysResponse {
+export interface SysResponse<P = any> {
     code: number;
     success?: boolean;
-    data: any;
+    // data: P;
+    result: P;
     message: string;
 }
 

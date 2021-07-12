@@ -8,5 +8,5 @@ import { http } from '@/utils/request/http';
  * @returns {any}
  */
 export function getDataList(data?: any): Promise<any> {
-    return http.post(`/list`);
+    return http.get(`/data/source/drPackageList`, data);
 }

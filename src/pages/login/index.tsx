@@ -7,7 +7,7 @@ import logo from '@/assets/img/logo.svg';
 import { APP_TOKEN } from '@/global';
 import { setLocalStore } from '@/utils/storage';
 import { FormClass } from '@/components/form';
-import { FormItemTypes } from '@/types/form';
+import { FormListProps } from '@/types/form';
 
 interface Props extends FormProps, ConnectProps {
     dispatch: Dispatch;
@@ -16,7 +16,7 @@ interface Props extends FormProps, ConnectProps {
 interface State {}
 
 class Login extends Component<Props, State> {
-    private FormList: Array<FormItemTypes> = [
+    private FormList: FormListProps = [
         {
             LabelProps: {
                 label: '用户名',

@@ -1,5 +1,5 @@
 import React, { Component, FC, ComponentClass, ReactNode } from 'react';
-import { ModalProps, Modal } from 'antd';
+import { ModalProps, Modal, Button } from 'antd';
 
 interface ModalIndexProps extends ModalProps {
     onOk?: (cb: Function | React.MouseEvent<HTMLElement, MouseEvent>) => void;
@@ -41,13 +41,13 @@ class BasicModal extends Component<Props, State> {
     }
 
     /**
-     * @name    onOpen
+     * @name    onSubmit
      * @description open modal
      * @date 2021-07-01
      * @param {any} e:React.MouseEvent<HTMLElement>
      * @returns {any}
      */
-    private onOpen(e: React.MouseEvent<HTMLElement>): void {
+    private onSubmit(e: React.MouseEvent<HTMLElement>): void {
         e.preventDefault();
         const { onOk } = this.props.modalProps;
         onOk && onOk(() => this.setVisible(!1));
@@ -61,6 +61,7 @@ class BasicModal extends Component<Props, State> {
      * @returns {any}
      */
     private onClose(e: React.MouseEvent<HTMLElement>): void {
+        e.preventDefault();
         const { onCancel } = this.props.modalProps;
         onCancel && onCancel(e);
         this.setVisible(!1);
@@ -72,11 +73,17 @@ class BasicModal extends Component<Props, State> {
      * @date 2021-07-01
      * @returns {any}
      */
-    private async onBtnClick(e: React.MouseEvent<HTMLElement>): Promise<void> {
+    private async onBtnClick(
+        e?: React.MouseEvent<HTMLElement> | any,
+    ): Promise<void> {
         e.stopPropagation();
+        e.preventDefault();
         const {
-            btn: { onClick },
+            btn: {
+                props: { onClick, disabled },
+            },
         } = this.props;
+        if (disabled) return;
         if (onClick) {
             await onClick();
         }
@@ -89,20 +96,17 @@ class BasicModal extends Component<Props, State> {
         return (
             <>
                 {btn ? (
-                    <span
-                        onClick={() =>
-                            btn.props.disabled ? void 0 : this.onBtnClick
-                        }
-                    >
-                        {btn}
-                    </span>
+                    <Button
+                        {...btn.props}
+                        onClick={(e) => this.onBtnClick(e)}
+                    />
                 ) : null}
                 <Modal
-                    visible={visible}
                     maskClosable={!1}
-                    onOk={() => this.onOpen}
-                    onCancel={() => this.onClose}
                     {...modalProps}
+                    visible={visible}
+                    onOk={(e) => this.onSubmit(e)}
+                    onCancel={(e) => this.onClose(e)}
                 >
                     {children}
                 </Modal>

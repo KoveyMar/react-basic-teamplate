@@ -2,20 +2,19 @@ import { RouterTypes } from '@/router/router.basic';
 
 const menu: RouterTypes = [
     {
-        path: '/home',
-        title: 'Home',
+        path: '/',
+        title: 'data-manange',
+        name: '数据管理',
         routes: [
             {
-                path: '/home/service',
-                title: 'Service',
+                path: '/home/dataManageSource',
+                title: 'data-source',
+                name: '模型管理',
             },
             {
-                path: '/home/system',
-                title: 'System',
-            },
-            {
-                path: '/home/role',
-                title: 'Role',
+                path: '/home/dataManageTemplate',
+                title: 'template',
+                name: '模板管理',
             },
         ],
     },

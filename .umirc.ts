@@ -1,5 +1,6 @@
 import { defineConfig } from 'umi';
 import routes from './src/router/router.basic';
+import { BASE_ORIGIN } from './src/global/config';
 
 const assetDir: string = 'static';
 
@@ -10,6 +11,7 @@ const publicPath = './';
 export default defineConfig({
     publicPath,
     routes,
+    title: '任务管理',
     /**
      * @description 使用loading加载页面
      */
@@ -36,6 +38,21 @@ export default defineConfig({
             src: './appConfig.js',
         },
     ],
+    /**
+     * @description --devServer config
+     */
+    devServer: {
+        proxy: {
+            '/api': {
+                target: BASE_ORIGIN,
+                ws: true,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': '',
+                },
+            },
+        },
+    },
     /**
      * @description --webpack build config
      */

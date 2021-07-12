@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import { Layout, Menu, MenuProps } from 'antd';
 import { Link } from 'umi';
-// import menu from '@/layout/menu';
-import { RouterTypes, default as menu } from '@/router/router.basic';
+import menu from '@/layout/menu';
+import { RouterTypes } from '@/router/router.basic';
 
 interface Props {}
 
@@ -30,30 +30,25 @@ class SideMenu extends Component<Props, State> {
             <Sider width={this.sideWidth}>
                 <Menu {...this.menuOptions}>
                     {menu.map((item: RouterTypes, index: number) =>
-                        item.isMenu ? (
-                            item.routes && item.routes.length ? (
-                                <SubMenu key={`sub${index}`} title={item.name}>
-                                    {item.routes.map(
-                                        (
-                                            chdMenu: RouterTypes,
-                                            index: number,
-                                        ) => (
-                                            <MenuItem
-                                                key={`chilrdren_Menu_@${index}`}
-                                            >
-                                                <Link to={chdMenu.path}>
-                                                    {chdMenu.name}
-                                                </Link>
-                                            </MenuItem>
-                                        ),
-                                    )}
-                                </SubMenu>
-                            ) : (
-                                <MenuItem key={`sub${index}`}>
-                                    <Link to={item.path}>{item.name}</Link>
-                                </MenuItem>
-                            )
-                        ) : null,
+                        item.routes && item.routes.length ? (
+                            <SubMenu key={`sub${index}`} title={item.name}>
+                                {item.routes.map(
+                                    (chdMenu: RouterTypes, index: number) => (
+                                        <MenuItem
+                                            key={`chilrdren_Menu_@${index}`}
+                                        >
+                                            <Link to={chdMenu.path}>
+                                                {chdMenu.name}
+                                            </Link>
+                                        </MenuItem>
+                                    ),
+                                )}
+                            </SubMenu>
+                        ) : (
+                            <MenuItem key={`sub${index}`}>
+                                <Link to={item.path}>{item.name}</Link>
+                            </MenuItem>
+                        ),
                     )}
                 </Menu>
             </Sider>

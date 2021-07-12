@@ -1,7 +1,7 @@
 import React, { Component, RefObject } from 'react';
 import { FormInstance } from 'antd';
 import { FormComp } from '@/components/form';
-import { FormItemTypes } from '@/types/form';
+import { FormListProps } from '@/types/form';
 
 interface Props {}
 
@@ -16,7 +16,7 @@ class Service extends Component<Props, State> {
 
     private formRef: RefObject<FormInstance> = React.createRef<FormInstance>();
 
-    private formList: Array<FormItemTypes> = [
+    private formList: FormListProps = [
         {
             LabelProps: {
                 label: 'List',

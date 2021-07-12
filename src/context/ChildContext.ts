@@ -1,10 +1,12 @@
-import React, { Context, ReactNode } from 'react';
+import React, { ComponentClass, Context, FC, ReactNode } from 'react';
 
 /**
- * @description 获取子路由页面
+ * @description React Context By T
  * @date 2021-05-28
  * @returns {any}
  */
-const ChildContext: Context<ReactNode> = React.createContext<ReactNode>(null);
+type T = ReactNode | FC | ComponentClass | any;
+
+const ChildContext: Context<T> = React.createContext<T>(null);
 
 export default ChildContext;

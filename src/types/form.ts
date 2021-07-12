@@ -1,4 +1,4 @@
-import { ReactNode, RefObject } from 'react';
+import { ReactNode, RefObject, FC, ComponentClass } from 'react';
 import { FormItemProps, ColProps, FormInstance } from 'antd';
 import { InputFace, Props as InputProps } from '@/components/form/comp/Input';
 import {
@@ -91,11 +91,25 @@ export interface OptionItem {
 }
 
 /**
+ * @description formList type
+ */
+export type FormListProps<T = any> = Array<FormItemTypes | T>;
+
+/**
+ * @description WrapperTypes
+ */
+export type WrapperTypes = {
+    element: FC | ComponentClass;
+    props: any;
+};
+
+/**
  * @description form component props
  */
 export interface FormProps {
-    formList: Array<FormItemTypes>;
-    formRef: RefObject<FormInstance> | FormInstance<FormInstance<any>>;
+    formList: FormListProps;
+    formRef: RefObject<FormInstance> | FormInstance<FormInstance<any>> | any;
     btn?: ReactNode;
     onSubmit?: Function;
+    wrapper?: WrapperTypes;
 }

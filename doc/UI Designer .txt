@@ -1,8 +1,0 @@
-
-*mockjs
-
-router permission
-
-dva model allGlobal?
-
-*dva refresh set new data

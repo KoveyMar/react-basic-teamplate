@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Form } from 'antd';
+import { Button, Form, FormInstance } from 'antd';
 import { FormProps } from '@/types/form';
 import { formItemLayout, tailLayout } from './style';
 import List from './FormList';
@@ -13,7 +13,7 @@ export default (props: FormProps, state: State): JSX.Element => {
     const FormItem = Form.Item;
 
     const [btnLoading, setBtnLoading] = useState<boolean>(!1);
-    const [formRef] = Form.useForm();
+    const [formRef]: [FormInstance<FormInstance<any>>] = Form.useForm();
 
     const onSubmit = (): void => {
         const { onSubmit } = props;
