@@ -2,12 +2,12 @@ import React, { Component, RefObject } from 'react';
 import { history, ConnectProps, LoginTypes, Dispatch, connect } from 'umi';
 import { Row, Col, FormProps, FormInstance, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import style from '@/styles/login.less';
+import style from '@/styles/pages/login.less';
 import logo from '@/assets/img/logo.svg';
 import { APP_TOKEN } from '@/global';
 import { setLocalStore } from '@/utils/storage';
 import { FormClass } from '@/components/form';
-import { FormItemTypes } from '@/types/form';
+import { FormListProps } from '@/types/form';
 
 interface Props extends FormProps, ConnectProps {
     dispatch: Dispatch;
@@ -16,7 +16,7 @@ interface Props extends FormProps, ConnectProps {
 interface State {}
 
 class Login extends Component<Props, State> {
-    private FormList: Array<FormItemTypes> = [
+    private FormList: FormListProps = [
         {
             LabelProps: {
                 label: '用户名',
@@ -31,6 +31,7 @@ class Login extends Component<Props, State> {
             NodeProps: {
                 prefix: <UserOutlined />,
                 placeholder: 'please enter username',
+                onPressEnter: () => this.onEnter(),
             },
             component: 'Input',
         },
@@ -49,6 +50,7 @@ class Login extends Component<Props, State> {
                 placeholder: 'please enter password',
                 prefix: <LockOutlined />,
                 type: 'password',
+                onPressEnter: () => this.onEnter(),
             },
             component: 'Input',
         },
@@ -56,7 +58,21 @@ class Login extends Component<Props, State> {
 
     private formRef: RefObject<FormInstance> = React.createRef<FormInstance>();
 
-    private submitHandle = (values: LoginTypes) => {
+    private onEnter = (): void => {
+        this.formRef.current!.validateFields().then((values: LoginTypes) => {
+            if (values) {
+                this.submitHandle(values);
+            }
+        });
+    };
+
+    /**
+     * @description 提交到 model
+     * @date 2021-07-23
+     * @param {any} values?:LoginTypes
+     * @returns {any}
+     */
+    private submitHandle = (values?: LoginTypes): void => {
         const { dispatch } = this.props;
 
         dispatch({

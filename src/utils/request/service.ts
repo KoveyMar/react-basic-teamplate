@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { notification } from 'antd';
 import { BASE_URL as baseURL } from '@/global';
 import { responseError } from './http.u';
+import { getLocalStore } from '@/utils/storage';
 
 /**
  * @description axios
@@ -16,6 +17,10 @@ const service: AxiosInstance = axios.create({
  */
 service.interceptors.request.use(
     (axiosRequestConfig: AxiosRequestConfig) => {
+        const token = getLocalStore('token');
+        if (token) {
+            axiosRequestConfig.headers['X-Access-Token'] = token;
+        }
         return axiosRequestConfig;
     },
     (error: any) => {

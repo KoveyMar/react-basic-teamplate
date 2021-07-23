@@ -1,5 +1,6 @@
 import { ReactNode, RefObject } from 'react';
 import { FormItemProps, ColProps, FormInstance } from 'antd';
+import { RenderNode } from './schemes';
 import { InputFace, Props as InputProps } from '@/components/form/comp/Input';
 import {
     InPasswordFace,
@@ -26,6 +27,14 @@ import {
     CheckboxFace,
     Props as CheckboxProps,
 } from '@/components/form/comp/Checkbox';
+import {
+    UploadFace,
+    Props as UploadProps,
+} from '@/components/form/comp/Upload';
+import {
+    TextAreaFace,
+    Props as TextAreaProps,
+} from '@/components/form/comp/TextArea';
 
 /**
  * @description render Controller types
@@ -38,12 +47,14 @@ export type ControllerFace =
     | DateFace
     | DateRangeFace
     | SwitchFace
-    | CheckboxFace;
+    | CheckboxFace
+    | UploadFace
+    | TextAreaFace;
 
 /**
  * @description Controller Props types
  */
-export type ControllerTypes =
+export type ControllerProps =
     | InputProps
     | InPasswordProps
     | SelectProps
@@ -51,7 +62,17 @@ export type ControllerTypes =
     | DateProps
     | RangeProps
     | SwitchProps
-    | CheckboxProps;
+    | CheckboxProps
+    | UploadProps
+    | TextAreaProps;
+
+/**
+ * @description form item props
+ */
+export interface FormSingleProps<T = ControllerProps> {
+    LabelProps?: FormItemProps;
+    NodeProps?: T;
+}
 
 /**
  * @description FormItemTypes
@@ -60,10 +81,8 @@ export type ControllerTypes =
  * @param   component   FormController  Key In FormRender
  * @param   inChild FormController  children
  */
-export interface FormItemTypes<T = ControllerTypes> {
-    LabelProps: FormItemProps;
+export interface FormItemTypes extends FormSingleProps {
     component: string;
-    NodeProps?: T;
     inChild?: ReactNode;
 }
 
@@ -91,11 +110,48 @@ export interface OptionItem {
 }
 
 /**
+ * @description formList type
+ */
+export type FormListProps<T = any> = Array<FormItemTypes | T>;
+
+/**
+ * @description WrapperTypes
+ */
+export type WrapperTypes = {
+    element: RenderNode;
+    props: any;
+};
+
+/**
+ * @description Form Ref Object
+ */
+export type FormRef =
+    | RefObject<FormInstance>
+    | FormInstance<FormInstance<any>>
+    | any;
+
+/**
+ * @description form Submit Function CallBack & Params;
+ */
+export type FormRefObject = {
+    formList: FormListProps;
+    formValues?: any;
+    formRef?: FormRef;
+};
+
+/**
  * @description form component props
  */
-export interface FormProps {
-    formList: Array<FormItemTypes>;
-    formRef: RefObject<FormInstance> | FormInstance<FormInstance<any>>;
+export interface FormComponentProps extends FormRefObject {
     btn?: ReactNode;
     onSubmit?: Function;
+    wrapper?: WrapperTypes;
+}
+
+/**
+ * @description FormFC / FormClasss State In Component
+ */
+export interface FormComponentState {
+    btnLoading?: boolean;
+    formValues?: any;
 }

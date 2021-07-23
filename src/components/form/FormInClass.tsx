@@ -1,18 +1,15 @@
 import { Component } from 'react';
 import { Button, Form } from 'antd';
-import { FormProps } from '@/types/form';
+import { FormComponentProps, FormComponentState as State } from '@/types/form';
 import { formItemLayout, tailLayout } from './style';
-import List from './FormList';
-
-interface State {
-    btnLoading: boolean;
-}
+import FormList from './FormList';
 
 const FormItem = Form.Item;
 
-class FormList extends Component<FormProps, State> {
+class FormClass extends Component<FormComponentProps, State> {
     public state: State = {
         btnLoading: !1,
+        formValues: {},
     };
 
     private onSubmit(): void {
@@ -22,6 +19,7 @@ class FormList extends Component<FormProps, State> {
             .then((values: any) => {
                 this.setState({
                     btnLoading: !0,
+                    formValues: values,
                 });
                 if (values) {
                     onSubmit && onSubmit(values);
@@ -39,10 +37,15 @@ class FormList extends Component<FormProps, State> {
 
     public render(): JSX.Element {
         const { formList, formRef, btn } = this.props;
-        const { btnLoading } = this.state;
+        const { btnLoading, formValues } = this.state;
         return (
             <Form ref={formRef} {...formItemLayout}>
-                <List formList={formList} />
+                <FormList
+                    formList={formList}
+                    formRef={formRef}
+                    formValues={formValues}
+                />
+
                 <FormItem {...tailLayout}>
                     <Button
                         type="primary"
@@ -58,4 +61,4 @@ class FormList extends Component<FormProps, State> {
     }
 }
 
-export default FormList;
+export default FormClass;

@@ -29,7 +29,10 @@ const template: Model = {
     state: {},
     /**
      * @description Action 处理器，处理同步动作，用来算出最新的 State
-     * @returns 更新 state
+     * @returns 更新 state,必须以 {key: value},或者 {...state, ...payload}形式,不能以 {key}作为变量KV形式
+     */
+    /**
+     * @template    return { key: value }
      */
     reducers: {
         //  state为初始值,   action为新数据

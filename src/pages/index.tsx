@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import Layout from '@/layout';
+import Layout from '@/layouts';
 import ChildContext from '@/context/ChildContext';
 import '@/styles/index.less';
 
