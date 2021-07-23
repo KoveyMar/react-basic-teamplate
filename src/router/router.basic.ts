@@ -1,3 +1,7 @@
+/**
+ * @description 由于采用定义 router, src/layouts 约定弃用
+ *
+ */
 import { IConfigFromPlugins } from '@@/core/pluginConfig';
 
 export interface RouterTypes extends IConfigFromPlugins {
@@ -17,6 +21,7 @@ const routes: Array<RouterTypes> = [
     },
     {
         path: '/login',
+        // title: '登录',
         name: '登录',
         exact: true,
         component: '@/pages/login/index',
@@ -31,28 +36,23 @@ const routes: Array<RouterTypes> = [
             {
                 path: '/',
                 name: '数据管理',
-                routes: [],
-            },
-            {
-                path: '/',
-                name: '系统管理',
                 routes: [
                     {
-                        path: '/home/service',
-                        component: '@/pages/service/index',
-                        name: '服务',
+                        path: '/home/dataManageTemplate',
+                        component: '@/pages/dataManage/template/index',
+                        name: '模板管理',
                         exact: true,
                     },
+                    // {
+                    //     path: '/home/dataManageTemplate/create',
+                    //     component: '@/pages/dataManage/template/createTemplate',
+                    //     name: '新增模板',
+                    //     exact: true,
+                    // },
                     {
-                        path: '/home/system',
-                        component: '@/pages/system/index',
-                        name: '系统',
-                        exact: true,
-                    },
-                    {
-                        path: '/home/role',
-                        component: '@/pages/role/index',
-                        name: '角色',
+                        path: '/home/dataManageSource',
+                        component: '@/pages/dataManage/dataModel/index',
+                        name: '模型管理',
                         exact: true,
                     },
                 ],

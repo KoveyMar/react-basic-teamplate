@@ -18,28 +18,6 @@ const menu: RouterTypes = [
             },
         ],
     },
-    {
-        path: '/',
-        title: 'system-manange',
-        name: '系统管理',
-        routes: [
-            {
-                path: '/home/service',
-                title: 'service',
-                name: '服务',
-            },
-            {
-                path: '/home/system',
-                title: 'system',
-                name: '系统',
-            },
-            {
-                path: '/home/role',
-                title: 'role',
-                name: '角色',
-            },
-        ],
-    },
 ];
 
 export default menu;

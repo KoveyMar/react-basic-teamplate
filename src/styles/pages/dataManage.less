@@ -1,0 +1,101 @@
+@main-color: #1890ff;
+@header-HGT: 45px;
+@header-BDM: 1px solid #ddd;
+
+.sh-header(@line-HGT, @BDM) {
+    color: #666;
+    margin: 0;
+    padding: 0 20px;
+    line-height: @line-HGT;
+    height: @line-HGT;
+    font-size: 16px;
+    border-bottom: @BDM;
+}
+
+//  模板管理   - 左侧菜单
+.controller-box {
+    .title {
+        .sh-header(@header-HGT, @header-BDM);
+    }
+
+    .controller-content {
+        padding: 10px 12px;
+    }
+
+    .controller-item {
+        margin: 10px 0;
+
+        button {
+            border-radius: 4px;
+
+            &:hover {
+                background-color: @main-color;
+                color: #fff;
+            }
+        }
+    }
+}
+
+//  模板管理    - 主区域
+.main-edit-area {
+    background-color: #fff;
+    height: 100%;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+
+    .edit-header {
+        .sh-header(@header-HGT, @header-BDM);
+        text-align: right;
+
+        .oper-item {
+            display: inline-block;
+            margin: 0 10px;
+            border-radius: 3px;
+            font-size: 20px;
+
+            &:hover {
+                color: @main-color;
+            }
+        }
+    }
+
+    .edit-content {
+        padding: 10px 14px;
+        overflow: auto;
+    }
+
+    .sort-item {
+        margin: 10px 0;
+        padding: 15px 10px;
+        border-radius: 8px;
+        border: 2px dashed #ccc;
+
+        .parent-content {
+            position: relative;
+        }
+
+        .abs-content {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 999;
+        }
+
+        &:hover {
+            border-color: @main-color;
+        }
+    }
+
+    .sort-item-active {
+        border-style: dashed;
+        background: #eee;
+        transition: transform 0.5s;
+    }
+}
+
+//  模板管理    - 配置区域
+.config-content {
+    .hedaer {
+        .sh-header(@header-HGT, @header-BDM);
+    }
+}
