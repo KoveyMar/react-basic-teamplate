@@ -31,7 +31,7 @@ const routes: Array<RouterTypes> = [
         component: '@/pages/index',
         wrappers,
         name: '首页',
-        exact: true,
+        // exact: true,
         routes: [
             {
                 path: '/',
