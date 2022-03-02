@@ -3,7 +3,7 @@
  */
 import { ReactNode } from 'react';
 import { Redirect } from 'umi';
-import { getLocalStore } from '@/utils/storage';
+import { LocalStore } from '@/utils/storage';
 import { APP_TOKEN } from '@/global';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
@@ -15,7 +15,7 @@ interface Props {
 interface State {}
 
 export default (props: Props, state: State): JSX.Element => {
-    const Token = getLocalStore<string>(APP_TOKEN);
+    const Token = LocalStore.getStore<string>(APP_TOKEN);
 
     function hasToken(): JSX.Element {
         NProgress.done();

@@ -5,7 +5,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import style from '@/styles/pages/login.less';
 import logo from '@/assets/img/logo.svg';
 import { APP_TOKEN } from '@/global';
-import { setLocalStore } from '@/utils/storage';
+import { LocalStore } from '@/utils/storage';
 import { FormClass } from '@/components/form';
 import { FormListProps } from '@/types/form';
 
@@ -81,7 +81,7 @@ class Login extends Component<Props, State> {
         }).then((res: any) => {
             if (res.code !== 200) return message.error(res.message);
             const { token } = res.data;
-            setLocalStore(APP_TOKEN, token);
+            LocalStore.setStore(APP_TOKEN, token);
             message.success(res.message);
             setTimeout(() => {
                 history.push('/home');

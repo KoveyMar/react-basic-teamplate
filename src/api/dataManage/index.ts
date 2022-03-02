@@ -7,6 +7,9 @@ import { http } from '@/utils/request/http';
  * @param {any} data?:any
  * @returns {any}
  */
-export function getDataList(data?: any): Promise<any> {
+export function getDataList<Q = any, P = any, R = any>(
+    data: Q,
+    params: P,
+): Promise<R> {
     return http.get(`/data/source/drPackageList`, data);
 }

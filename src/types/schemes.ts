@@ -1,5 +1,4 @@
 import { ComponentClass, FC, ReactNode } from 'react';
-import { ConnectedComponent } from 'react-redux';
 import { Action } from '@/.umi/plugin-dva/connect';
 
 /**

@@ -10,7 +10,7 @@ export interface LoginTypes {
 
 const sendData: Function = async (payload: LoginTypes) => {
     const { username, password } = payload;
-    return username === 'admin' && password === '888888'
+    return username === 'admin' && password === '123456'
         ? {
               code: 200,
               data: payload,

@@ -3,7 +3,7 @@ import { Avatar, Dropdown, Menu, Modal } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { history, ConnectProps, LoginTypes, Dispatch, connect } from 'umi';
 import styles from '@/styles/layout/index.less';
-import { removeLocalStore } from '@/utils/storage';
+import { LocalStore } from '@/utils/storage';
 import { APP_TOKEN } from '@/global';
 
 type T = 'login' | 'dispatch';
@@ -49,7 +49,7 @@ class LogOut extends Component<Props, State> {
                 dispatch({
                     type: 'login/logOut',
                 }).then(() => {
-                    removeLocalStore(APP_TOKEN);
+                    LocalStore.removeStore(APP_TOKEN);
                     setTimeout(() => {
                         history.push('/');
                     }, 2e2);

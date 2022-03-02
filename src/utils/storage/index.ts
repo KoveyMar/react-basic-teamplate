@@ -1,2 +1,2 @@
-export * from './localStore';
-export * from './sessionStore';
+export { default as LocalStore } from './localStore';
+export { default as SessionStore } from './sessionStore';

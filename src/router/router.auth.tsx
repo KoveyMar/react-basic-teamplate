@@ -3,7 +3,7 @@
  */
 import { Redirect } from 'umi';
 import { ReactNode } from 'react';
-import { getLocalStore } from '@/utils/storage';
+import { LocalStore } from '@/utils/storage';
 import { APP_TOKEN } from '@/global';
 
 interface Props {
@@ -17,7 +17,7 @@ interface State {}
  * @returns {any}
  */
 export default (props: Props, state: State): JSX.Element => {
-    const T = getLocalStore(APP_TOKEN);
+    const T = LocalStore.getStore(APP_TOKEN);
     const { children } = props;
     return !T ? <Redirect to="/login" /> : <>{children}</>;
 };

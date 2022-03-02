@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { notification } from 'antd';
 import { BASE_URL as baseURL } from '@/global';
 import { responseError } from './http.u';
-import { getLocalStore } from '@/utils/storage';
+import { LocalStore } from '@/utils/storage';
 
 /**
  * @description axios
@@ -17,7 +17,7 @@ const service: AxiosInstance = axios.create({
  */
 service.interceptors.request.use(
     (axiosRequestConfig: AxiosRequestConfig) => {
-        const token = getLocalStore('token');
+        const token = LocalStore.getStore('token');
         if (token) {
             axiosRequestConfig.headers['X-Access-Token'] = token;
         }
@@ -47,8 +47,12 @@ service.interceptors.response.use(
             : axiosResponse.data;
     },
     (error: any) => {
-        const ErrStat = error.response.status;
-        responseError(ErrStat);
+        try {
+            const ErrStat = error.response.status;
+            responseError(ErrStat);
+        } catch (e) {
+            console.error(e);
+        }
         return Promise.reject(error);
     },
 );
