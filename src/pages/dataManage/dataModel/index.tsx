@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import {} from 'antd';
-import {} from 'dva';
-import {} from 'umi';
+import { getDataList } from '@/api/dataManage';
 
 interface Props {}
 
@@ -12,9 +11,9 @@ type Student = {};
 export default (props: Props, state: State): JSX.Element => {
     const [data, setData] = useState<Array<Student>>([]);
 
-    const load = (): void => {};
-
-    useEffect;
+    useEffect(() => {
+        getDataList();
+    }, []);
 
     return <>template</>;
 };

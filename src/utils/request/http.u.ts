@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import { history } from 'umi';
+// import { history } from 'umi';
 import { messageZH } from '@/global';
 
 /**

@@ -31,13 +31,17 @@ export default (props: Props, state: State): JSX.Element => {
         },
     ];
 
-    const click = () => {};
-
     const operation: Array<ReactNode> = [
-        <Button type="primary" icon={<PlusOutlined />} onClick={click}>
+        <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => clickHandle()}
+        >
             添加
         </Button>,
     ];
+
+    function clickHandle(): void {}
 
     useEffect;
 

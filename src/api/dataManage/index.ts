@@ -1,15 +1,15 @@
-import { http } from '@/utils/request/http';
+import http from '@/utils/request/http';
 
 /**
  * @name    getDataList
- * @description 获取列表
+ * @description get Data
  * @date 2021-07-06
  * @param {any} data?:any
  * @returns {any}
  */
 export function getDataList<Q = any, P = any, R = any>(
-    data: Q,
-    params: P,
+    data?: Q,
+    params?: P,
 ): Promise<R> {
-    return http.get(`/data/source/drPackageList`, data);
+    return http.get(`/feature_preview/indicator_check`, data, { params });
 }

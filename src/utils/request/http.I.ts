@@ -9,7 +9,7 @@ import { SysResponse } from '@/types/schemes';
  * @param {any} config?:AxiosRequestConfig
  * @returns {any}
  */
-export interface HttpI {
+export default interface HttpI {
     get<T = SysResponse>(
         url: string,
         params?: any,
@@ -29,6 +29,24 @@ export interface HttpI {
     ): Promise<T>;
 
     put<T = SysResponse>(
+        url: string,
+        params?: any,
+        config?: AxiosRequestConfig,
+    ): Promise<T>;
+
+    options<T = SysResponse>(
+        url: string,
+        params?: any,
+        config?: AxiosRequestConfig,
+    ): Promise<T>;
+
+    head<T = SysResponse>(
+        url: string,
+        params?: any,
+        config?: AxiosRequestConfig,
+    ): Promise<T>;
+
+    patch<T = SysResponse>(
         url: string,
         params?: any,
         config?: AxiosRequestConfig,

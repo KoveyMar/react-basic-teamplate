@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import { SysResponse } from '@/types/schemes';
-import { HttpI } from './http.I';
+import HttpI from './http.I';
 import service from './service';
 
 /**
@@ -38,6 +38,30 @@ class Http implements HttpI {
     ): Promise<T> {
         return service.delete(url, { params, ...config });
     }
+
+    options<T = SysResponse>(
+        url: string,
+        params?: any,
+        config?: AxiosRequestConfig,
+    ): Promise<T> {
+        return service.delete(url, { params, ...config });
+    }
+
+    head<T = SysResponse>(
+        url: string,
+        params?: any,
+        config?: AxiosRequestConfig,
+    ): Promise<T> {
+        return service.delete(url, { params, ...config });
+    }
+
+    patch<T = SysResponse>(
+        url: string,
+        params?: any,
+        config?: AxiosRequestConfig,
+    ): Promise<T> {
+        return service.delete(url, { params, ...config });
+    }
 }
 
-export const http = new Http();
+export default new Http();

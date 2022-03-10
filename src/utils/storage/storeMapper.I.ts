@@ -1,3 +1,6 @@
+/**
+ * @description BasicMapper
+ */
 export default class BasicStoreMapper {
     public nameSpace: string = '';
 

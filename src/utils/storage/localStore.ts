@@ -1,4 +1,4 @@
-import BasicMapper from './store.I';
+import BasicMapper from './storeMapper.I';
 
 class LocalStore extends BasicMapper {
     public nameSpace: string = 'localStorage';

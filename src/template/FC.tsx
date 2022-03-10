@@ -12,7 +12,7 @@ type Student = {};
 export default (props: Props, state: State): JSX.Element => {
     const [data, setData] = useState<Array<Student>>([]);
 
-    const load = (): void => {};
+    function load(): void {}
 
     useEffect;
 
