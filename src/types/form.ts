@@ -70,8 +70,8 @@ export type ControllerProps =
  * @description form item props
  */
 export interface FormSingleProps<T = ControllerProps> {
-    LabelProps?: FormItemProps;
-    NodeProps?: T;
+    LabelProps: FormItemProps;
+    NodeProps: T;
 }
 
 /**
@@ -112,7 +112,7 @@ export interface OptionItem {
 /**
  * @description formList type
  */
-export type FormListProps<T = any> = Array<FormItemTypes | T>;
+export type FormListProps<T = FormItemTypes> = Array<T>;
 
 /**
  * @description WrapperTypes

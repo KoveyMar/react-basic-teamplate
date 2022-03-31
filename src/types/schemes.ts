@@ -13,6 +13,13 @@ export interface SysResponse<P = any> {
 }
 
 /**
+ * @description xhr Error Type
+ */
+export interface ErrorTypes extends SysResponse {
+    status: number;
+}
+
+/**
  * @description 解决 TS 中 Action 提交类dispacth数据对象,但不能识别 payload 等 dispacth 参数
  */
 export interface ActPayLoad<T, P = any> extends Action<T> {
@@ -38,3 +45,10 @@ export type RenderNode<P = {}, S = any> =
     | ReactNode
     | JSX.IntrinsicElements
     | JSX.Element;
+
+/**
+ * @description Http Status Code
+ */
+export type HttpCode = {
+    [code: number]: string;
+};

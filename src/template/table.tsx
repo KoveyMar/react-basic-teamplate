@@ -36,9 +36,8 @@ export default (props: Props, state: State): JSX.Element => {
             type="primary"
             icon={<PlusOutlined />}
             onClick={() => clickHandle()}
-        >
-            添加
-        </Button>,
+            children={'添加'}
+        />,
     ];
 
     function clickHandle(): void {}
@@ -64,6 +63,7 @@ export default (props: Props, state: State): JSX.Element => {
                     columns,
                     rowKey: (record: any) => record.drivenId,
                 }}
+                fuzzy={[]}
             />
         </>
     );

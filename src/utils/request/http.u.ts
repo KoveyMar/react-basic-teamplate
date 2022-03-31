@@ -1,5 +1,4 @@
 import { notification } from 'antd';
-// import { history } from 'umi';
 import { messageZH } from '@/global';
 
 /**
@@ -11,10 +10,8 @@ import { messageZH } from '@/global';
  */
 export const responseError = (status: number, cb?: Function): void => {
     const message = messageZH[status];
-    if (status >= 500) {
-        notification.error({
-            message: '系统提示',
-            description: message,
-        });
-    }
+    return notification.error({
+        message: '系统提示',
+        description: message,
+    });
 };

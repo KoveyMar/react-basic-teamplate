@@ -1,12 +1,7 @@
 import { Model } from 'dva';
 import { getToken } from '@/utils/RandomValue';
 import { ActPayLoad } from '@/types/schemes';
-
-export interface LoginTypes {
-    username: string | null;
-    password: string | null;
-    token?: string | null;
-}
+import { LoginTypes } from '@/types/pages/Login';
 
 const sendData: Function = async (payload: LoginTypes) => {
     const { username, password } = payload;
@@ -24,25 +19,36 @@ const sendData: Function = async (payload: LoginTypes) => {
 };
 
 const login: Model = {
-    // 当前 Model 的名称。整个应用的 State，由多个小的 Model 的 State 以 namespace 为 key 合成
     namespace: 'login',
-    //  该 Model 当前的状态。数据保存在这里，直接决定了视图层的输出
     state: {
         username: null,
         password: null,
         token: null,
     },
-    // Action 处理器，处理同步动作，用来算出最新的 State
     reducers: {
-        //  state为初始值,   action为新数据
-        saveInfo(
+        /**
+         * @name    saveLoginState
+         * @description 保存登录信息
+         * @date 2022-03-29
+         * @param {any} state:LoginTypes
+         * @param {any} action:ActPayLoad<any
+         * @param {any} LoginTypes>
+         * @returns {any}
+         */
+        saveLoginState(
             state: LoginTypes,
             action: ActPayLoad<any, LoginTypes>,
         ): LoginTypes {
             const { payload } = action;
             return { ...state, ...payload };
         },
-        clearInfo(): LoginTypes {
+        /**
+         * @name    clearLoginState
+         * @description 清除登录信息
+         * @date 2022-03-29
+         * @returns {any}
+         */
+        clearLoginState(): LoginTypes {
             const data = {
                 username: null,
                 password: null,
@@ -57,7 +63,7 @@ const login: Model = {
             let { code, data, message } = yield call(sendData, payload);
             if (code === 200) {
                 yield put({
-                    type: 'saveInfo',
+                    type: 'saveLoginState',
                     payload: {
                         ...data,
                         token: getToken(),
@@ -70,7 +76,7 @@ const login: Model = {
         },
         *logOut(action: ActPayLoad<any, LoginTypes>, { call, put, select }) {
             yield put({
-                type: 'clearInfo',
+                type: 'clearLoginState',
             });
             return {};
         },

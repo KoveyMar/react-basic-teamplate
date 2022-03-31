@@ -1,5 +1,7 @@
 import http from '@/utils/request/http';
 
+const scope_base_url: string = '';
+
 /**
  * @name    getDataList
  * @description get Data
@@ -11,5 +13,7 @@ export function getDataList<Q = any, P = any, R = any>(
     data?: Q,
     params?: P,
 ): Promise<R> {
-    return http.get(`/feature_preview/indicator_check`, data, { params });
+    return http.get(`${scope_base_url}/feature_preview/indicator_check`, data, {
+        params,
+    });
 }

@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { notification } from 'antd';
 import { BASE_URL as baseURL } from '@/global';
-import { responseError } from './http.u';
 import { LocalStore } from '@/utils/storage';
+import { responseError } from './http.u';
 
 /**
  * @description axios
@@ -19,6 +19,9 @@ service.interceptors.request.use(
     (axiosRequestConfig: AxiosRequestConfig) => {
         const token = LocalStore.getStore('token');
         if (token) {
+            /**
+             * @description xhr header token
+             */
             axiosRequestConfig.headers['X-Access-Token'] = token;
         }
         return axiosRequestConfig;
@@ -35,6 +38,7 @@ service.interceptors.response.use(
     (axiosResponse: AxiosResponse) => {
         if (
             axiosResponse.data.hasOwnProperty('success') &&
+            axiosResponse.data.code === 200 &&
             axiosResponse.data.success === false
         ) {
             notification.error({
@@ -50,8 +54,8 @@ service.interceptors.response.use(
         try {
             const ErrStat = error.response.status;
             responseError(ErrStat);
-        } catch (e) {
-            console.error(e);
+        } catch (e: any) {
+            throw new Error(e);
         }
         return Promise.reject(error);
     },

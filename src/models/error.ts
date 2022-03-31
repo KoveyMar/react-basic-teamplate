@@ -1,17 +1,11 @@
 import { Model } from 'dva';
 import { Location } from 'umi';
-import { ActPayLoad } from '@/types/schemes';
-import { messageLay } from '@/global/http.status';
-
-export interface ErrorTypes {
-    code: number;
-    result?: any;
-    message: string | null | void;
-}
+import { ActPayLoad, ErrorTypes } from '@/types/schemes';
+import { messageEN } from '@/global/http.status';
 
 const setMessage: Function = async (payload: ErrorTypes | void) => {
     let code = payload?.code || 404;
-    const message = messageLay[code];
+    const message = messageEN[code];
     return {
         code,
         message,

@@ -4,7 +4,7 @@ import { SysResponse } from '@/types/schemes';
 /**
  * @description TS Http Basic
  * @date 2021-06-18
- * @param {any} url:string
+ * @param {string} url:string
  * @param {any} params?:any
  * @param {any} config?:AxiosRequestConfig
  * @returns {any}

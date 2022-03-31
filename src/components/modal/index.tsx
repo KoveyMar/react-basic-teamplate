@@ -1,22 +1,10 @@
 import { Component } from 'react';
-import { ModalProps, Modal, Button } from 'antd';
-import { MouseClick, RenderNode } from '@/types';
-
-interface ModalIndexProps extends ModalProps {
-    onOk?: (cb: Function | MouseClick) => void;
-}
-
-interface Props {
-    init?: Function | void;
-    title?: string;
-    children: RenderNode;
-    btn?: any;
-    modalProps: ModalIndexProps;
-}
-
-interface State {
-    visible: boolean;
-}
+import { Modal, Button } from 'antd';
+import {
+    MouseClick,
+    ModalIProps as Props,
+    ModalIState as State,
+} from '@/types';
 
 class BasicModal extends Component<Props, State> {
     public state: State = {

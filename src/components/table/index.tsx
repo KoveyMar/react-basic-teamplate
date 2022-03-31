@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Table, Card, TablePaginationConfig } from 'antd';
+import { Table, Card } from 'antd';
 import ChildContext from '@/context/ChildContext';
-import { SysResponse, DataSource, TableListProps as Props } from '@/types';
-import style from '@/styles/tableList.less';
+import {
+    SysResponse,
+    DataSource,
+    TableListPagesProps,
+    TableListState as State,
+    TableListProps as Props,
+} from '@/types';
+import Style from '@/styles/tableList.less';
 import TableHeader from './comp/TableHeader';
 import TableOpertion from './comp/TableOpertion';
 
-interface State {
-    dataSource: Array<any>;
-    tablePage: TablePaginationConfig;
-}
-
-const initPage: TablePaginationConfig = {
+const initPage: TableListPagesProps = {
     total: 0,
     pageSize: 10,
     current: 1,
@@ -19,17 +20,18 @@ const initPage: TablePaginationConfig = {
 };
 
 function TableList(props: Props, state: State): JSX.Element {
-    const { tabelProps, query, operation, header, wrapper } = props;
+    const { tabelProps, query, operation, header, wrapper, fuzzy } = props;
     const { pagination } = tabelProps;
-    const [dataSource, setDataSource] = useState<Array<any>>();
-    const [tablePage, setTablePage] = useState<TablePaginationConfig>(initPage);
+    const [dataSource, setDataSource] = useState<State['dataSource']>();
+    const [tablePage, setTablePage] = useState<State['tablePage']>(initPage);
 
     /**
+     * @name    queryTableList
      * @description 查询列表
      * @date 2021-07-09
      * @returns {any}
      */
-    const queryTableList = (others?: any): void => {
+    function queryTableList(others?: any): void {
         const queryParams = getQueryParams(others);
         query(queryParams).then((res: SysResponse<DataSource>) => {
             if (res.code === 200 || !!res.success) {
@@ -38,30 +40,32 @@ function TableList(props: Props, state: State): JSX.Element {
                 setTablePage({ ...tablePage, current, pageSize, total });
             }
         });
-    };
+    }
 
     /**
+     * @name    onPageChange
      * @description 翻页查询
      * @date 2021-07-09
      * @param {any} page:number
      * @param {any} pageSize:number
      * @returns {any}
      */
-    const onPageChange = (page: number, pageSize?: number | void): void => {
-        let pageParams = {
+    function onPageChange(page: number, pageSize?: number | void): void {
+        const pageParams = {
             pageNo: page,
             pageSize,
         };
         queryTableList(pageParams);
-    };
+    }
 
     /**
+     * @name    getQueryParams
      * @description 获取查询参数
      * @date 2021-07-09
      * @param {any} p?:any
      * @returns {any}
      */
-    const getQueryParams = (other?: any): any => {
+    function getQueryParams(other?: any): {} {
         let params = {
             pageNo: tablePage.current,
             pageSize: tablePage.pageSize,
@@ -75,24 +79,45 @@ function TableList(props: Props, state: State): JSX.Element {
                 pageSize,
             };
         }
-        return params;
-    };
+        return getFuzzyParams(params);
+    }
 
     /**
+     * @name    getFuzzyParams
+     * @description 筛除列表模糊查询字段
+     * @date 2022-03-29
+     * @param {any} params:any
+     * @returns {any}
+     */
+    function getFuzzyParams(params: any): {} {
+        const { pageNo, pageSize, ...Fparams } = params;
+        let NotFuzzy: any = {};
+        if (fuzzy && fuzzy.length) {
+            for (let value of Object.keys(Fparams)) {
+                if (fuzzy.indexOf(value) === -1) {
+                    NotFuzzy[value] = params[value];
+                }
+            }
+        }
+        return { pageNo, pageSize, ...NotFuzzy };
+    }
+
+    /**
+     * @name    init
      * @description 初始化
      * @date 2021-07-09
      * @returns {any}
      */
-    const init = (): void => {
+    function init(): void {
         queryTableList();
-    };
+    }
 
     useEffect(() => {
         init();
     }, []);
 
     return (
-        <Card bordered={false} className={style['main-table']}>
+        <Card bordered={false} className={Style['main-table']}>
             <ChildContext.Provider value={wrapper}>
                 <TableHeader queryTableList={queryTableList} header={header} />
             </ChildContext.Provider>

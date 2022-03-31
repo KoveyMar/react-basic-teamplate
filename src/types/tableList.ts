@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { TableProps, TableColumnProps } from 'antd';
+import { TableProps, TableColumnProps, TablePaginationConfig } from 'antd';
 import { FormListProps, WrapperTypes } from './form';
 import { RenderNode } from './schemes';
 
@@ -43,9 +43,23 @@ export type Operation = Array<RenderNode>;
  */
 export interface TableListProps {
     tabelProps: TableProps<any>;
-    query: Function;
+    query: (params: any) => Promise<any>;
     header?: Header;
     otherParams?: any;
     operation?: Operation;
     wrapper?: WrapperTypes;
+    fuzzy?: Array<string>;
 }
+
+/**
+ * @description Table State
+ */
+export interface TableListState {
+    dataSource: Array<any>;
+    tablePage: TablePaginationConfig;
+}
+
+/**
+ * @description Table Pages Props
+ */
+export type TableListPagesProps = TablePaginationConfig;

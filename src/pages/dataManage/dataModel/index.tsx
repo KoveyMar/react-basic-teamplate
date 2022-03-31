@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import {} from 'antd';
 import { getDataList } from '@/api/dataManage';
+import { FormListProps } from '@/types';
 
 interface Props {}
 
@@ -10,6 +10,14 @@ type Student = {};
 
 export default (props: Props, state: State): JSX.Element => {
     const [data, setData] = useState<Array<Student>>([]);
+
+    const formList: FormListProps = [
+        {
+            LabelProps: {},
+            NodeProps: {},
+            component: '',
+        },
+    ];
 
     useEffect(() => {
         getDataList();

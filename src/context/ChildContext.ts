@@ -1,4 +1,4 @@
-import React, { Context } from 'react';
+import { Context, createContext } from 'react';
 import { RenderNode } from '@/types';
 
 /**
@@ -8,6 +8,6 @@ import { RenderNode } from '@/types';
  */
 type T = RenderNode | any;
 
-const ChildContext: Context<T> = React.createContext<T>(null);
+const ChildContext: Context<T> = createContext<T>(null);
 
 export default ChildContext;

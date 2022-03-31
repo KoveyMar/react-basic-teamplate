@@ -1,5 +1,5 @@
 import React, { Component, RefObject } from 'react';
-import { history, ConnectProps, LoginTypes, Dispatch, connect } from 'umi';
+import { history, ConnectProps, Dispatch, connect } from 'umi';
 import { Row, Col, FormProps, FormInstance, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import style from '@/styles/pages/login.less';
@@ -8,6 +8,7 @@ import { APP_TOKEN } from '@/global';
 import { LocalStore } from '@/utils/storage';
 import { FormClass } from '@/components/form';
 import { FormListProps } from '@/types/form';
+import { LoginTypes } from '@/types/pages/Login';
 
 interface Props extends FormProps, ConnectProps {
     dispatch: Dispatch;
