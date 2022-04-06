@@ -18,6 +18,10 @@ export default defineConfig({
     dynamicImport: {
         loading: '@/components/loading/index',
     },
+    /**
+     * @description type is browser in SSR mode
+     * default hash
+     */
     history: {
         type: 'hash',
     },
@@ -31,7 +35,11 @@ export default defineConfig({
     },
     fastRefresh: {},
     /**
-     * @description 从umi 引入public 文件
+     * @description SSR
+     */
+    // ssr: {},
+    /**
+     * @description public files
      */
     scripts: [
         {

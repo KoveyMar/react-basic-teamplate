@@ -1,22 +1,24 @@
 import { Model } from 'dva';
 import { getToken } from '@/utils/RandomValue';
-import { ActPayLoad } from '@/types/schemes';
+import { ActPayLoad, SysResponse } from '@/types/schemes';
 import { LoginTypes } from '@/types/pages/Login';
+import { MOCK_ACCOUNT } from '@/global';
 
-const sendData: Function = async (payload: LoginTypes) => {
-    const { username, password } = payload;
-    return username === 'admin' && password === '123456'
+async function sendData(payload: LoginTypes): Promise<SysResponse> {
+    return Object.keys(MOCK_ACCOUNT)
+        .map((value: string) => MOCK_ACCOUNT[value] === payload[value])
+        .filter((flag: boolean) => flag).length >= 2
         ? {
               code: 200,
-              data: payload,
+              result: payload,
               message: '登录成功',
           }
         : {
               code: 500,
-              data: payload,
+              result: payload,
               message: '用户名或密码错误,登录失败',
           };
-};
+}
 
 const login: Model = {
     namespace: 'login',
@@ -31,8 +33,7 @@ const login: Model = {
          * @description 保存登录信息
          * @date 2022-03-29
          * @param {any} state:LoginTypes
-         * @param {any} action:ActPayLoad<any
-         * @param {any} LoginTypes>
+         * @param {any} action:ActPayLoad
          * @returns {any}
          */
         saveLoginState(
@@ -57,22 +58,21 @@ const login: Model = {
             return data;
         },
     },
-    // Action 处理器，处理异步动作
     effects: {
         *request({ payload }, { call, put, select }) {
-            let { code, data, message } = yield call(sendData, payload);
+            let { code, result, message } = yield call(sendData, payload);
             if (code === 200) {
                 yield put({
                     type: 'saveLoginState',
                     payload: {
-                        ...data,
+                        ...result,
                         token: getToken(),
                     },
                 });
             }
             const { token } = yield select((state: any) => state.login);
-            data = { ...data, token };
-            return { code, data, message };
+            result = { ...result, token };
+            return { code, result, message };
         },
         *logOut(action: ActPayLoad<any, LoginTypes>, { call, put, select }) {
             yield put({
@@ -81,12 +81,6 @@ const login: Model = {
             return {};
         },
     },
-    /**
-     *    subscriptions相当于一个监听器，
-     *      可以监听路由变化，鼠标，键盘变化，服务器连接变化，状态变化等，
-     *      这样在其中就可以根据不同的变化做出相应的处理
-     *
-     */
     subscriptions: {
         setup({ dispatch, history }) {
             return history.listen;

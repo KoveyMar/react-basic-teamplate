@@ -38,7 +38,7 @@ service.interceptors.response.use(
     (axiosResponse: AxiosResponse) => {
         if (
             axiosResponse.data.hasOwnProperty('success') &&
-            axiosResponse.data.code === 200 &&
+            axiosResponse.data.code != 200 &&
             axiosResponse.data.success === false
         ) {
             notification.error({

@@ -1,16 +1,17 @@
 import { Model } from 'dva';
 import { Location } from 'umi';
-import { ActPayLoad, ErrorTypes } from '@/types/schemes';
+import { ActPayLoad, ErrorTypes, SysResponse } from '@/types/schemes';
 import { messageEN } from '@/global/http.status';
 
-const setMessage: Function = async (payload: ErrorTypes | void) => {
+async function setMessage(payload: ErrorTypes | void): Promise<SysResponse> {
     let code = payload?.code || 404;
     const message = messageEN[code];
     return {
         code,
+        result: null,
         message,
     };
-};
+}
 
 const error: Model = {
     namespace: 'error',

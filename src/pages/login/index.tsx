@@ -81,7 +81,7 @@ class Login extends Component<Props, State> {
             payload: values,
         }).then((res: any) => {
             if (res.code !== 200) return message.error(res.message);
-            const { token } = res.data;
+            const { token } = res.result;
             LocalStore.setStore(APP_TOKEN, token);
             message.success(res.message);
             setTimeout(() => {
