@@ -5,8 +5,26 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "command": "npm start",
-            "name": "Run npm start",
+            "command": "npm run start",
+            "name": "Run Start",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "command": "npm run build",
+            "name": "Run Build",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "command": "yarn install",
+            "name": "Run YarnInstall",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "command": "pnpm i",
+            "name": "Run pnpInstall",
             "request": "launch",
             "type": "node-terminal"
         }
