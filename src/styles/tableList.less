@@ -1,19 +1,28 @@
-.table-header {
-    margin: 10px 0 20px;
+div.main-table {
+    height: 100%;
 
-    button:not(:last-child) {
-        margin-right: 10px;
+    > div:first-child {
+        padding-top: 18px;
+        padding-bottom: 18px;
     }
-}
 
-.table-operation {
-    margin: 0 0 20px;
+    .table-header {
+        margin: 10px 0 20px;
 
-    &.no-operation {
+        button:not(:last-child) {
+            margin-right: 10px;
+        }
+    }
+
+    .table-operation {
+        margin: 0 0 20px;
+
+        > span:not(:first-child) {
+            margin-left: 10px;
+        }
+    }
+
+    .no-operation {
         margin: 0;
     }
-}
-
-.main-table {
-    padding: 10px 10px 0;
 }

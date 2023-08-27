@@ -1,28 +1,40 @@
-import { useEffect, ReactNode } from 'react';
-import { Button, Col } from 'antd';
+import { useEffect, useState } from 'react';
+import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { getDataList } from '@/api/dataManage';
-import { FormListProps, GroupColumns } from '@/types';
+import type {
+    DataSource,
+    FormListProps,
+    GroupColumns,
+    Operation,
+    SysResponse,
+} from '@/types';
 import TableList from '@/components/table';
 
 interface Props {}
 
-interface State {}
+interface State {
+    refresh: Array<string>;
+}
 
-export default (props: Props, state: State): JSX.Element => {
+export default function TempTable(props: Props): JSX.Element {
+    const [refresh, setRefresh] = useState<State['refresh']>([]);
+
     const columns: GroupColumns = [
         {
-            key: 'drivenName',
-            title: 'drivenName',
-            dataIndex: 'drivenName',
+            key: 'name',
+            dataIndex: 'name',
+            title: 'name',
         },
     ];
 
-    const query: FormListProps = [
+    /**
+     * @template    FormList --example
+     */
+    const Search: FormListProps = [
         {
             LabelProps: {
                 label: '名称',
-                name: 'dataSourceDrivenName',
+                name: 'name',
             },
             NodeProps: {
                 placeholder: 'please enter name',
@@ -31,40 +43,32 @@ export default (props: Props, state: State): JSX.Element => {
         },
     ];
 
-    const operation: Array<ReactNode> = [
-        <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => clickHandle()}
-            children={'添加'}
-        />,
+    const operation: Operation = [
+        <Button type="primary" icon={<PlusOutlined />} children={'添加'} />,
     ];
 
-    function clickHandle(): void {}
+    async function getData<T extends SysResponse<DataSource>>(): Promise<T> {
+        return Promise.resolve({
+            code: 200,
+            data: { records: [], total: 0, size: 0, current: 0 },
+            message: '',
+        });
+    }
 
     useEffect;
 
     return (
-        <>
-            <TableList
-                query={getDataList}
-                header={{
-                    Search: query,
-                }}
-                operation={operation}
-                wrapper={{
-                    element: Col,
-                    props: {
-                        sm: 8,
-                        md: 6,
-                    },
-                }}
-                tabelProps={{
-                    columns,
-                    rowKey: (record: any) => record.drivenId,
-                }}
-                fuzzy={[]}
-            />
-        </>
+        <TableList
+            query={getData}
+            header={{
+                Search,
+            }}
+            operation={operation}
+            refresh={refresh}
+            tableProps={{
+                columns,
+                rowKey: (record: any) => record.id,
+            }}
+        />
     );
-};
+}

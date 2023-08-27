@@ -1,22 +1,23 @@
-import { Component, ComponentClass } from 'react';
-import { Moment } from 'moment';
+import { Component } from 'react';
+import type { ComponentClass } from 'react';
 import { DatePicker } from 'antd';
-import { RangePickerProps } from 'antd/lib/date-picker/generatePicker';
+import type { RangePickerProps } from 'antd/lib/date-picker/index';
+import type { PickerRef } from 'antd/lib/date-picker/generatePicker/interface';
 
-export type Props = {} & RangePickerProps<Moment>;
+export type Props = {} & RangePickerProps;
+
+export type DateRangeFace = ComponentClass<Props, State>;
+
+type Instance = PickerRef<Props> | any;
 
 interface State {}
 
-const { RangePicker } = DatePicker;
+const RangePicker: Instance = DatePicker.RangePicker;
 
-class FormRangeDate extends Component<Props, State> {
+export default class FormRangeDate extends Component<Props, State> {
     public state: State = {};
 
     public render(): JSX.Element {
         return <RangePicker {...this.props} />;
     }
 }
-
-export type DateRangeFace = ComponentClass<Props, State>;
-
-export default FormRangeDate;

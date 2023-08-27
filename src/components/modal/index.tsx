@@ -1,53 +1,93 @@
 import { Component } from 'react';
 import { Modal, Button } from 'antd';
-import {
-    MouseClick,
+import type {
     ModalIProps as Props,
     ModalIState as State,
+    MouseClick,
 } from '@/types';
 
-class BasicModal extends Component<Props, State> {
+export default class BasicModal extends Component<Props, State> {
     public state: State = {
         visible: !1,
+        confirmLoading: !1,
     };
 
     /**
      * @name    setVisible
      * @description modal visible
      * @date 2021-07-01
-     * @param {any} visible:boolean
-     * @returns {any}
+     * @param {boolean} visible
+     * @param {Function} callBack
+     * @returns {void}
      */
-    private setVisible(visible: boolean): void {
+    private setVisible(visible: boolean, callBack?: Function): void {
         this.setState(
             {
                 visible,
             },
             () => {
                 visible && this.props.init && this.props.init();
+                callBack && callBack();
             },
         );
+    }
+
+    /**
+     * @name    setConfirmLoading
+     * @description modal btn loading
+     * @date 2021-08-10
+     * @param {boolean} confirmLoading
+     * @returns {void}
+     */
+    private setConfirmLoading(confirmLoading: boolean): void {
+        this.setState({
+            confirmLoading,
+        });
+    }
+
+    /**
+     * @name    initModalController
+     * @description modal controller
+     * @date 2022-09-22
+     * @returns {void}
+     */
+    private initModalController(): void {
+        const { initController } = this.props;
+        if (initController) {
+            initController({
+                setClose: (close: boolean) => this.setVisible(close),
+                setLoading: (loading: boolean) =>
+                    this.setConfirmLoading(loading),
+            });
+        }
     }
 
     /**
      * @name    onSubmit
      * @description open modal
      * @date 2021-07-01
-     * @param {any} e:React.MouseEvent<HTMLElement>
-     * @returns {any}
+     * @param {MouseClick} e
+     * @returns {void}
      */
     private onSubmit(e: MouseClick): void {
         e.preventDefault();
         const { onOk } = this.props.modalProps;
-        onOk && onOk(() => this.setVisible(!1));
+        onOk &&
+            onOk(
+                [
+                    (close: boolean) => this.setVisible(close),
+                    (loading: boolean) => this.setConfirmLoading(loading),
+                ],
+                e,
+            );
     }
 
     /**
      * @name    onClose
      * @description close modal
      * @date 2021-07-01
-     * @param {any} e:React.MouseEvent<HTMLElement>
-     * @returns {any}
+     * @param {MouseClick} e
+     * @returns {void}
      */
     private onClose(e: MouseClick): void {
         e.preventDefault();
@@ -58,11 +98,13 @@ class BasicModal extends Component<Props, State> {
 
     /**
      * @name    onBtnClick
+     * @function AsyncFunction
      * @description btn onClick
      * @date 2021-07-01
-     * @returns {any}
+     * @param {MouseClick} e
+     * @returns {Promise<void>}
      */
-    private async onBtnClick(e?: MouseClick | any): Promise<void> {
+    private async onBtnClick(e: MouseClick): Promise<void> {
         e.stopPropagation();
         e.preventDefault();
         const {
@@ -77,8 +119,12 @@ class BasicModal extends Component<Props, State> {
         this.setVisible(!0);
     }
 
+    public componentDidMount(): void {
+        this.initModalController();
+    }
+
     public render(): JSX.Element {
-        const { visible } = this.state;
+        const { visible, confirmLoading } = this.state;
         const { modalProps, children, btn } = this.props;
         return (
             <>
@@ -89,17 +135,18 @@ class BasicModal extends Component<Props, State> {
                     />
                 ) : null}
                 <Modal
+                    okText="确认"
+                    cancelText="取消"
                     maskClosable={!1}
+                    width={600}
                     {...modalProps}
-                    visible={visible}
+                    open={visible}
                     onOk={(e) => this.onSubmit(e)}
                     onCancel={(e) => this.onClose(e)}
-                >
-                    {children}
-                </Modal>
+                    confirmLoading={confirmLoading}
+                    children={children}
+                />
             </>
         );
     }
 }
-
-export default BasicModal;

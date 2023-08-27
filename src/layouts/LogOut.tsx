@@ -1,50 +1,46 @@
-import { ClassAttributes, Component } from 'react';
 import { Avatar, Dropdown, Menu, Modal } from 'antd';
+import type { ItemType } from 'antd/lib/menu/hooks/useItems';
 import { UserOutlined } from '@ant-design/icons';
-import { history, ConnectProps, LoginTypes, Dispatch, connect } from 'umi';
-import styles from '@/styles/layout/index.less';
-import { LocalStore } from '@/utils/storage';
+import { history, Dispatch, useDispatch, useSelector } from 'umi';
+import { LocalStore } from '@/utils';
 import { APP_TOKEN } from '@/global';
+import RootState, { type LoginModel } from '@/types/models';
 
-type T = 'login' | 'dispatch';
-
-interface Props extends ConnectProps, Omit<ClassAttributes<LogOut> & any, T> {
-    login: LoginTypes;
-    dispatch: Dispatch;
-}
+interface Props {}
 
 interface State {}
 
-const MenuItem = Menu.Item;
-
-class LogOut extends Component<Props, State> {
-    private readonly menu: JSX.Element = (
-        <Menu>
-            <MenuItem
-                key="1"
-                onClick={() => {
-                    this.logOutHandle();
-                }}
-            >
-                注销
-            </MenuItem>
-        </Menu>
+export default function LogOut(props: Props): JSX.Element {
+    const dispatch = useDispatch<Dispatch>();
+    const { username } = useSelector<RootState, RootState['login']>(
+        (state) => state.login,
     );
 
-    protected logOutHandle(): void {
-        const { dispatch, login } = this.props;
-        const confirm = () =>
-            new Promise((resovle, reject) => {
-                Modal.confirm({
-                    title: '注销',
-                    content: '确定退出登录吗',
-                    okText: '确定',
-                    cancelText: '取消',
-                    onOk: () => resovle(null),
-                    onCancel: () => reject(),
-                });
+    /**
+     * @description 注销菜单
+     * @date 2022-08-17
+     * @returns {any}
+     */
+    const AvatarMenu: ItemType[] = [
+        { label: '注销', key: '1', onClick: logOutHandle },
+    ];
+
+    /**
+     * @description 注销
+     * @date 2022-08-17
+     * @returns {any}
+     */
+    function logOutHandle(): void {
+        new Promise((resovle, reject) => {
+            Modal.confirm({
+                title: '注销',
+                content: '确定退出登录吗',
+                okText: '确定',
+                cancelText: '取消',
+                onOk: () => resovle(null),
+                onCancel: () => reject(),
             });
-        confirm()
+        })
             .then(() => {
                 dispatch({
                     type: 'login/logOut',
@@ -58,26 +54,15 @@ class LogOut extends Component<Props, State> {
             .catch();
     }
 
-    public render(): JSX.Element {
-        const { username } = this.props.login;
-        return (
-            <div className={styles['log-out']}>
-                <Dropdown overlay={this.menu}>
-                    <Avatar
-                        size="large"
-                        alt={username || ''}
-                        icon={<UserOutlined />}
-                    />
-                </Dropdown>
-            </div>
-        );
-    }
+    return (
+        <div className={'log-out'}>
+            <Dropdown menu={{ items: AvatarMenu }}>
+                <Avatar
+                    size="large"
+                    alt={username || ''}
+                    icon={<UserOutlined />}
+                />
+            </Dropdown>
+        </div>
+    );
 }
-
-const mapStateToProps = ({ login }: { login: LoginTypes }) => {
-    return {
-        login,
-    };
-};
-
-export default connect(mapStateToProps)(LogOut);

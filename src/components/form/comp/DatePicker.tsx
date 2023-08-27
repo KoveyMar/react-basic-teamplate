@@ -1,13 +1,19 @@
-import { Component, ComponentClass } from 'react';
-import { Moment } from 'moment';
+import { Component } from 'react';
+import type { ComponentClass } from 'react';
+import moment, { Moment } from 'moment';
 import { DatePicker, TimePicker } from 'antd';
-import { PickerBaseProps } from 'antd/lib/date-picker/generatePicker';
+import type { PickerBaseProps } from 'antd/lib/date-picker/generatePicker';
+import type { PickerRef } from 'antd/es/date-picker/generatePicker/interface';
 
 export interface Props extends PickerBaseProps<Moment> {
     isTime?: boolean;
 }
 
 interface State {}
+
+type Instance = PickerRef<Props> | any;
+
+const DateInstance: Instance = DatePicker;
 
 class FormDate extends Component<Props, State> {
     public state: State = {};
@@ -17,7 +23,7 @@ class FormDate extends Component<Props, State> {
         return isTime ? (
             <TimePicker {...dateProps} />
         ) : (
-            <DatePicker {...dateProps} />
+            <DateInstance {...dateProps} />
         );
     }
 }

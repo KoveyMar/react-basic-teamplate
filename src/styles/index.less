@@ -1,17 +1,28 @@
-#root {
+// @import './antd-reset.less';
+#root,
+#root-master {
     height: 100%;
+
+    .ant-btn-link {
+        padding: 0;
+    }
 }
+
 ::-webkit-scrollbar {
     width: 6px;
     background: #ddd;
+    height: 8px;
 }
+
 ::-webkit-scrollbar-thumb {
     background-color: #a0a0a0;
     border-radius: 10px;
 }
+
 ::-webkit-scrollbar-button {
     display: none;
 }
+
 ::-webkit-scrollbar-track {
     // border-radius: 10px;
 }

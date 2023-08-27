@@ -1,17 +1,16 @@
 import { defineConfig } from 'umi';
 import routes from './src/router/router.basic';
-import { BASE_ORIGIN } from './src/global/config';
+import { ENV_DEV } from './src/global/config';
 
-const assetDir: string = 'static';
+const assetDir = 'static';
 
-const isEnvDevelopment: boolean = process.env.NODE_ENV === 'development';
-
-const publicPath = './';
+const publicPath = '/';
 
 export default defineConfig({
     publicPath,
     routes,
-    title: '任务管理',
+    outputPath: './dist',
+    title: '系统管理',
     /**
      * @description 使用loading加载页面
      */
@@ -19,9 +18,11 @@ export default defineConfig({
         loading: '@/components/loading/index',
     },
     /**
-     * @description type is browser in SSR mode
-     * default hash
+     * @description dva config
      */
+    dva: {
+        lazyLoad: !0,
+    },
     history: {
         type: 'hash',
     },
@@ -30,42 +31,35 @@ export default defineConfig({
     },
     terserOptions: {
         compress: {
-            drop_console: !isEnvDevelopment,
+            drop_console: !ENV_DEV,
         },
     },
+    /**
+     * @description 快速启动开启
+     */
+    // mfsu: {},
+    /**
+     * @description 热刷新
+     */
     fastRefresh: {},
     /**
-     * @description SSR
+     * @description webpack5
      */
-    // ssr: {},
+    webpack5: {},
     /**
-     * @description public files
+     * @description 从umi 引入public 文件
      */
-    scripts: [
+    headScripts: [
         {
             src: './appConfig.js',
         },
     ],
-    /**
-     * @description --devServer config
-     */
-    devServer: {
-        proxy: {
-            '/api': {
-                target: BASE_ORIGIN,
-                ws: true,
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api': '',
-                },
-            },
-        },
-    },
+    favicon: './assets/AppIcon256.png',
     /**
      * @description --webpack build config
      */
     chainWebpack: async (config, { env, webpack, createCSSRule }) => {
-        if (isEnvDevelopment) return !1;
+        if (ENV_DEV) return !1;
         config.merge({
             optimization: {
                 splitChunks: {

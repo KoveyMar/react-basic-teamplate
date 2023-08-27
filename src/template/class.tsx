@@ -7,7 +7,7 @@ interface Props {}
 
 interface State {}
 
-class Temp extends Component<Props, State> {
+export default class Temp extends Component<Props, State> {
     public state: State = {};
 
     public componentDidMount(): void {}
@@ -16,5 +16,3 @@ class Temp extends Component<Props, State> {
         return <></>;
     }
 }
-
-export default Temp;

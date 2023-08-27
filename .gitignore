@@ -9,12 +9,10 @@
 
 # production
 /dist
+/public/appConfig.js
 
 # misc
 .DS_Store
-
-# env
-*.env.local
 
 # umi
 /src/.umi
@@ -22,7 +20,10 @@
 /src/.umi-test
 /.env.local
 
-# other
+# env
+#.umirc.local.*
+
+# others
 *.zip
-*.7z
 *.rar
+*.7z

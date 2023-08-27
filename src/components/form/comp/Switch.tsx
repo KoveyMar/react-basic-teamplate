@@ -1,5 +1,7 @@
-import { Component, ComponentClass } from 'react';
-import { Switch, SwitchProps } from 'antd';
+import { Component } from 'react';
+import type { ComponentClass } from 'react';
+import { Switch } from 'antd';
+import type { SwitchProps } from 'antd/lib/switch';
 
 export interface Props extends SwitchProps {}
 

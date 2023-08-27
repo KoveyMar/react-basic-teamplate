@@ -1,23 +1,28 @@
-import React, { Component, RefObject } from 'react';
-import { history, ConnectProps, Dispatch, connect } from 'umi';
-import { Row, Col, FormProps, FormInstance, message } from 'antd';
+import { useState } from 'react';
+import { history, Dispatch, useDispatch } from 'umi';
+import { Row, Col, Button, Typography } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { APP_TOKEN, HOME_ROUTER } from '@/global';
+import { AppMessage, LocalStore } from '@/utils';
+import { AppForm } from '@/components/form';
+import type { FormListProps, SysResponse } from '@/types';
+import type { LoginModel } from '@/types/models';
 import style from '@/styles/pages/login.less';
 import logo from '@/assets/img/logo.svg';
-import { APP_TOKEN } from '@/global';
-import { LocalStore } from '@/utils/storage';
-import { FormClass } from '@/components/form';
-import { FormListProps } from '@/types/form';
-import { LoginTypes } from '@/types/pages/Login';
+import { useFormRef } from '@/hooks/useFormRef';
 
-interface Props extends FormProps, ConnectProps {
-    dispatch: Dispatch;
+interface Props {}
+
+interface State {
+    btnLoading: boolean;
 }
 
-interface State {}
+export default function Login(props: Props): JSX.Element {
+    const FormRef = useFormRef<LoginModel>();
+    const dispatch = useDispatch<Dispatch<LoginModel>>();
+    const [btnLoading, setBtnLoading] = useState<State['btnLoading']>(!1);
 
-class Login extends Component<Props, State> {
-    private FormList: FormListProps = [
+    const formList: FormListProps = [
         {
             LabelProps: {
                 label: '用户名',
@@ -30,9 +35,9 @@ class Login extends Component<Props, State> {
                 ],
             },
             NodeProps: {
+                placeholder: 'please enter username/admin',
                 prefix: <UserOutlined />,
-                placeholder: 'please enter username',
-                onPressEnter: () => this.onEnter(),
+                // onPressEnter: onSubmit,
             },
             component: 'Input',
         },
@@ -48,79 +53,82 @@ class Login extends Component<Props, State> {
                 ],
             },
             NodeProps: {
-                placeholder: 'please enter password',
+                placeholder: 'please enter password/12345',
                 prefix: <LockOutlined />,
-                type: 'password',
-                onPressEnter: () => this.onEnter(),
+                onPressEnter: onSubmit,
             },
-            component: 'Input',
+            component: 'InPassword',
         },
     ];
 
-    private formRef: RefObject<FormInstance> = React.createRef<FormInstance>();
-
-    private onEnter = (): void => {
-        this.formRef.current!.validateFields().then((values: LoginTypes) => {
+    /**
+     * @description enter Listener
+     * @date 2022-08-17
+     * @returns {void}
+     */
+    function onSubmit(): void {
+        FormRef.validateFields().then((values: LoginModel) => {
             if (values) {
-                this.submitHandle(values);
+                submitHandle(values);
             }
         });
-    };
+    }
 
     /**
      * @description 提交到 model
      * @date 2021-07-23
-     * @param {any} values?:LoginTypes
-     * @returns {any}
+     * @param {LoginModel} values
+     * @returns {void}
      */
-    private submitHandle = (values?: LoginTypes): void => {
-        const { dispatch } = this.props;
-
+    function submitHandle(values?: LoginModel): void {
+        setBtnLoading(!0);
         dispatch({
-            type: 'login/request',
+            type: 'login/requestLogin',
             payload: values,
-        }).then((res: any) => {
-            if (res.code !== 200) return message.error(res.message);
-            const { token } = res.result;
-            LocalStore.setStore(APP_TOKEN, token);
-            message.success(res.message);
-            setTimeout(() => {
-                history.push('/home');
-            }, 2e2);
-        });
-    };
-
-    public componentDidMount(): void {}
-
-    public state: State = {};
-
-    public render(): JSX.Element {
-        return (
-            <div className={style['login-container']}>
-                <div className={style.logo}>
-                    <Row gutter={16}>
-                        <Col sm={8}>
-                            <img className={style.icon} src={logo} />
-                        </Col>
-                        <Col sm={16}>
-                            <p className={style.text}>系统管理</p>
-                        </Col>
-                    </Row>
-                </div>
-                <FormClass
-                    formList={this.FormList}
-                    formRef={this.formRef}
-                    onSubmit={this.submitHandle}
-                />
-            </div>
-        );
+        })
+            .then((res: SysResponse) => {
+                if (res.code !== 200) return AppMessage.Error(res);
+                AppMessage.Success(res);
+                const token = res.data;
+                LocalStore.setStore(APP_TOKEN, token);
+                setTimeout(() => {
+                    history.push(HOME_ROUTER);
+                }, 2e2);
+            })
+            .finally(() => setBtnLoading(!1));
     }
+
+    return (
+        <div className={style['login-container']}>
+            <div className={style.logo}>
+                <Row gutter={16}>
+                    <Col sm={8}>
+                        <img className={style.icon} src={logo} />
+                    </Col>
+                    <Col sm={16}>
+                        <Typography.Title
+                            className={style.text}
+                            level={3}
+                            children={'系统管理'}
+                        />
+                    </Col>
+                </Row>
+            </div>
+            <AppForm
+                formInstance={FormRef}
+                formList={formList}
+                button={[
+                    <Button
+                        block
+                        key={'submit'}
+                        shape={'round'}
+                        type={'primary'}
+                        loading={btnLoading}
+                        onClick={() => onSubmit()}
+                        children={'确认'}
+                    />,
+                ]}
+            />
+        </div>
+    );
 }
-
-const mapStateToProps = ({ login }: { login: LoginTypes }) => {
-    return {
-        login,
-    };
-};
-
-export default connect(mapStateToProps)(Login);

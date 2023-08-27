@@ -1,6 +1,7 @@
-import { Component, ForwardRefExoticComponent } from 'react';
+import { Component } from 'react';
+import type { ComponentClass } from 'react';
 import { Input } from 'antd';
-import { TextAreaProps } from 'antd/lib/input';
+import type { TextAreaProps } from 'antd/lib/input';
 
 export interface Props extends TextAreaProps {}
 
@@ -12,10 +13,12 @@ class FormTextArea extends Component<Props, State> {
     public state: State = {};
 
     public render(): JSX.Element {
-        return <TextArea {...this.props} />;
+        return (
+            <TextArea autoSize={{ minRows: 4, maxRows: 6 }} {...this.props} />
+        );
     }
 }
 
-export type TextAreaFace = ForwardRefExoticComponent<TextAreaProps>;
+export type TextAreaFace = ComponentClass<TextAreaProps>;
 
 export default FormTextArea;

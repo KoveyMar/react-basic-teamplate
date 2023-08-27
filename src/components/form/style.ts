@@ -1,4 +1,5 @@
-import { FormItemCol } from '@/types/form';
+// import { Col } from 'antd';
+import type { FormItemCol, WrapperTypes } from '@/types';
 
 /**
  * @template   --FormItem global Col Config, formItemLayout and tailLayout
@@ -20,3 +21,15 @@ export const formItemLayout: FormItemCol = {
 export const tailLayout: FormItemCol = {
     wrapperCol: { offset: 6, span: 16 },
 };
+
+/**
+ * @default
+ * @description formList Grid
+ */
+// export const IWrapper: WrapperTypes = {
+//     labelCol: {
+//         // sm: 24,
+//         // md: 24,
+//         span: 24,
+//     },
+// };

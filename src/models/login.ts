@@ -1,90 +1,86 @@
 import { Model } from 'dva';
-import { getToken } from '@/utils/RandomValue';
-import { ActPayLoad, SysResponse } from '@/types/schemes';
-import { LoginTypes } from '@/types/pages/Login';
-import { MOCK_ACCOUNT } from '@/global';
+import { getUUID } from '@/utils';
+import type { ActPayLoad, SysResponse } from '@/types';
+import type { LoginModel } from '@/types/models';
 
-async function sendData(payload: LoginTypes): Promise<SysResponse> {
-    return Object.keys(MOCK_ACCOUNT)
-        .map((value: string) => MOCK_ACCOUNT[value] === payload[value])
-        .filter((flag: boolean) => flag).length >= 2
+async function sendData(payload: LoginModel): Promise<SysResponse> {
+    const { username, password } = payload;
+    return username === 'admin' && password === '12345'
         ? {
               code: 200,
-              result: payload,
+              data: payload,
               message: '登录成功',
           }
         : {
               code: 500,
-              result: payload,
+              data: payload,
               message: '用户名或密码错误,登录失败',
           };
 }
 
+const staticData = {
+    username: null,
+    password: null,
+    token: null,
+} as LoginModel;
+
 const login: Model = {
     namespace: 'login',
     state: {
-        username: null,
-        password: null,
-        token: null,
+        ...staticData,
     },
     reducers: {
-        /**
-         * @name    saveLoginState
-         * @description 保存登录信息
-         * @date 2022-03-29
-         * @param {any} state:LoginTypes
-         * @param {any} action:ActPayLoad
-         * @returns {any}
-         */
-        saveLoginState(
-            state: LoginTypes,
-            action: ActPayLoad<any, LoginTypes>,
-        ): LoginTypes {
-            const { payload } = action;
-            return { ...state, ...payload };
-        },
-        /**
-         * @name    clearLoginState
-         * @description 清除登录信息
-         * @date 2022-03-29
-         * @returns {any}
-         */
-        clearLoginState(): LoginTypes {
-            const data = {
-                username: null,
-                password: null,
-                token: null,
+        updateState(
+            state: LoginModel,
+            action: ActPayLoad<any, LoginModel>,
+        ): LoginModel {
+            let { token } = state;
+            const {
+                payload: { code, data, message },
+            }: any = action;
+            code === 200 && (token = getUUID());
+            const newVal: LoginModel = {
+                ...data,
+                token,
             };
-            return data;
+            return { ...state, ...newVal };
+        },
+        clearAllState(): LoginModel {
+            return {
+                ...staticData,
+            };
         },
     },
     effects: {
-        *request({ payload }, { call, put, select }) {
-            let { code, result, message } = yield call(sendData, payload);
-            if (code === 200) {
-                yield put({
-                    type: 'saveLoginState',
-                    payload: {
-                        ...result,
-                        token: getToken(),
-                    },
-                });
-            }
-            const { token } = yield select((state: any) => state.login);
-            result = { ...result, token };
-            return { code, result, message };
-        },
-        *logOut(action: ActPayLoad<any, LoginTypes>, { call, put, select }) {
+        *requestLogin(
+            { payload }: ActPayLoad<any, LoginModel>,
+            { call, put, select },
+        ): Generator<any, SysResponse, any> {
+            let res = { code: 0, data: null, message: '' } as SysResponse;
+            try {
+                res = yield call(sendData, payload);
+            } catch (error) {}
             yield put({
-                type: 'clearLoginState',
+                type: 'updateState',
+                payload: res,
+            });
+            const { token } = yield select((state: any) => state.login);
+            return { ...res, data: token };
+        },
+        *logOut(
+            action: ActPayLoad<any, LoginModel>,
+            { call, put, select },
+        ): Generator<any, {}, any> {
+            yield put({
+                type: 'clearAllState',
             });
             return {};
         },
     },
     subscriptions: {
-        setup({ dispatch, history }) {
-            return history.listen;
-        },
+        // setup({ dispatch, history }) {
+        //     return history.listen();
+        // },
     },
 };
 

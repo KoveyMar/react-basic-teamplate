@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Operation } from '@/types';
+import type { Operation } from '@/types';
 import style from '@/styles/tableList.less';
 
 interface Props {
@@ -13,7 +13,7 @@ interface State {}
  * @date 2021-07-09
  * @returns {any}
  */
-export default (props: Props, state: State): JSX.Element => {
+export default (props: Props): JSX.Element => {
     const { operation } = props;
 
     return (
@@ -24,9 +24,9 @@ export default (props: Props, state: State): JSX.Element => {
                     : style['no-operation']
             }
         >
-            {operation?.map((element: ReactNode, index: number) => (
-                <span key={index}>{element}</span>
-            ))}
+            {operation?.map((element: ReactNode, index: number) =>
+                element ? <span key={index}>{element}</span> : null,
+            )}
         </div>
     );
 };

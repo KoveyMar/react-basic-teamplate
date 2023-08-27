@@ -1,6 +1,7 @@
-import { Component, ForwardRefExoticComponent } from 'react';
+import { Component } from 'react';
+import type { ForwardRefExoticComponent } from 'react';
 import { Input } from 'antd';
-import { PasswordProps } from 'antd/lib/input';
+import type { PasswordProps } from 'antd/lib/input';
 
 export interface Props extends PasswordProps {}
 

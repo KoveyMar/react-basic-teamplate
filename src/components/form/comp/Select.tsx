@@ -1,78 +1,80 @@
-import { Component, ComponentClass } from 'react';
-import { Select, SelectProps } from 'antd';
-import { OptionItem } from '@/types/form';
+import { useEffect, useState } from 'react';
+import type { FunctionComponent, OptgroupHTMLAttributes } from 'react';
+import { Select } from 'antd';
+import type { BaseOptionType, SelectProps } from 'antd/lib/select';
+import type { OptionItem, OptionSource } from '@/types';
+import { distpacthOptions } from '@/utils/form.utils';
 
-type O = OptionItem & {};
+interface OptGroupProps extends OptgroupHTMLAttributes<any> {
+    options: Array<OptionItem>;
+}
 
-export interface Props extends SelectProps<any> {
-    Options?: Array<O>;
-    Group?: {
-        Value: string;
-        Label: string;
-        Source: Array<any>;
-    };
+export interface Props extends SelectProps<any, BaseOptionType>, OptionSource {
+    Options?: Array<OptionItem>;
+    OptGroup?: Array<OptGroupProps>;
 }
 
 interface State {
-    OptionGroup: Array<O>;
-    defaultProps: SelectProps<any>;
+    OptionGroup: Array<OptionItem>;
 }
 
-const Option = Select.Option;
+const { Option, OptGroup: OptGroupFC } = Select;
 
-class FormSelect extends Component<Props, State> {
+export type SelectFace = FunctionComponent<Props>;
+
+export default function FormSelect(props: Props): JSX.Element {
+    const { Group, Options, OptGroup, ...SProps } = props;
+    const [OptionGroup, setOptionGroup] = useState<State['OptionGroup']>([]);
+
     /**
-     * @description 分发属性
-     * @date 2021-07-23
+     * @description 计算Options
+     * @date 2021-10-13
      * @returns {any}
      */
-    private distrbutionAttr = (): void => {
-        const { Options, Group, ...defaultIP } = this.props;
-        const IP = { defaultProps: defaultIP };
-        if (Options) return this.setState({ OptionGroup: Options, ...IP });
-        if (Group) {
-            const { Value, Label, Source } = Group;
-            let j: Array<any> = [];
-            Source &&
-                Source.map((V: any) => {
-                    j.push({
-                        label: V[Label],
-                        value: V[Value],
-                    });
-                });
-            this.setState({ OptionGroup: j, ...IP });
-        }
-    };
-
-    public state: State = {
-        OptionGroup: [],
-        defaultProps: {},
-    };
-
-    public componentDidMount(): void {
-        this.distrbutionAttr();
+    function init(): void {
+        distpacthOptions(props, (IProps) => {
+            const { Options } = IProps;
+            setOptionGroup(Options);
+        });
     }
 
-    public render(): JSX.Element {
-        const { OptionGroup, defaultProps } = this.state;
+    /**
+     * @description 生成 Options Element
+     * @date 2022-10-28
+     * @param {any} OptionsSource:State['OptionGroup']
+     * @returns {any}
+     */
+    function createOptions(OptionsSource: State['OptionGroup']): JSX.Element {
         return (
             <>
-                <Select {...defaultProps}>
-                    {OptionGroup.map((item: O, index: number) => (
-                        <Option
-                            value={item.value}
-                            title={item.value}
-                            key={item.value}
-                        >
-                            {item.label}
-                        </Option>
-                    ))}
-                </Select>
+                {OptionsSource.map((item: OptionItem, index: number) => (
+                    <Option
+                        value={item.value}
+                        title={item.value}
+                        key={item.value}
+                        disabled={item.disabled ?? !1}
+                        children={item.label}
+                    />
+                ))}
             </>
         );
     }
+
+    useEffect(() => {
+        init();
+    }, [Group]);
+
+    return (
+        <Select {...SProps}>
+            {OptGroup
+                ? OptGroup.map((opt: OptGroupProps) => (
+                      <OptGroupFC
+                          label={opt.label}
+                          key={opt.label}
+                          children={createOptions(opt.options)}
+                      />
+                  ))
+                : createOptions(OptionGroup)}
+        </Select>
+    );
 }
-
-export type SelectFace = ComponentClass<any, any>;
-
-export default FormSelect;

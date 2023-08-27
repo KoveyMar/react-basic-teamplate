@@ -1,16 +1,13 @@
-import React, { Component, ComponentClass } from 'react';
-import { Input, InputProps } from 'antd';
-import ChildContext from '@/context/ChildContext';
-
-// type K = React.SyntheticEvent<any> | React.KeyboardEvent<HTMLInputElement>;
+import { Component } from 'react';
+import type { ComponentClass } from 'react';
+import { Input } from 'antd';
+import type { InputProps } from 'antd/lib/input';
 
 export interface Props extends InputProps {}
 
 interface State {}
 
 class FormInput extends Component<Props, State> {
-    static contextType = ChildContext;
-
     public state: State = {};
 
     public render(): JSX.Element {

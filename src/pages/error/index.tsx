@@ -1,33 +1,34 @@
-import { Component } from 'react';
-import {
-    Link,
-    connect,
-    ConnectProps,
-    Dispatch,
-    ErrorTypes,
-    history,
-} from 'umi';
+import { useEffect } from 'react';
+import { Dispatch, Link, Location, useDispatch, useSelector } from 'umi';
 import { Result, Button } from 'antd';
+import type RootState from '@/types/models';
+import { HOME_ROUTER } from '@/global';
 
-interface Props extends ConnectProps {
-    error: ErrorTypes;
-    dispatch: Dispatch;
+interface Props {
+    location: Location<{ code: string | number }>;
 }
 
-interface State {
-    info?: string;
-}
+interface State {}
 
-class Error extends Component<Props, State> {
-    private HomeBtn: JSX.Element = (
-        <Button type="primary" key="Home">
-            <Link to="/home">Go Home</Link>
-        </Button>
+export default function Error(props: Props): JSX.Element {
+    const info: string =
+        'Please check and modify the following information before resubmitting.';
+    const dispatch = useDispatch<Dispatch>();
+    const { code, message } = useSelector<RootState, RootState['error']>(
+        (state) => state.error,
     );
 
-    private getPageCode(code: number, dispatch: Dispatch): void {
-        const { location } = history;
-        let C = location.pathname.split('/')[1] !== 'error' ? 404 : code;
+    /**
+     * @description 获取页面错误信息
+     * @date 2022-08-17
+     * @returns {void}
+     */
+    function getPageError(): void {
+        const {
+            location: { state, pathname },
+        } = props;
+        const C =
+            state?.code ?? (pathname.split('/')[1] !== 'error' ? 404 : code);
         dispatch({
             type: 'error/getStatus',
             payload: {
@@ -36,38 +37,20 @@ class Error extends Component<Props, State> {
         });
     }
 
-    public state: State = {
-        info: 'Please check and modify the following information before resubmitting.',
-    };
+    useEffect(() => {
+        getPageError();
+    }, []);
 
-    public componentDidMount(): void {
-        const {
-            error: { code },
-            dispatch,
-        } = this.props;
-        this.getPageCode(code, dispatch);
-    }
-
-    public render(): JSX.Element {
-        const { info } = this.state;
-        const {
-            error: { code, message },
-        } = this.props;
-        return (
-            <Result
-                status="error"
-                title={`Submission Failed: ${code} - ${message}`}
-                subTitle={info}
-                extra={this.HomeBtn}
-            />
-        );
-    }
+    return (
+        <Result
+            status="error"
+            title={`Submission Failed: ${code} - ${message}`}
+            subTitle={info}
+            extra={
+                <Button type="primary" key="Home">
+                    <Link to={HOME_ROUTER}>Go Home</Link>
+                </Button>
+            }
+        />
+    );
 }
-
-const mapStateToProps = ({ error }: { error: ErrorTypes }) => {
-    return {
-        error,
-    };
-};
-
-export default connect(mapStateToProps)(Error);

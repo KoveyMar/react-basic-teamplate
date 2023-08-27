@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import { Layout, Menu, MenuProps } from 'antd';
+import { Layout, Menu, type MenuProps } from 'antd';
 import { Link } from 'umi';
 import menu from '@/layouts/menu';
-import { RouterTypes } from '@/router/router.basic';
+import type { RouterTypes } from '@/types/router';
 
 interface Props {}
 
@@ -35,7 +35,7 @@ class SideMenu extends Component<Props, State> {
                                 {item.routes.map(
                                     (chdMenu: RouterTypes, index: number) => (
                                         <MenuItem
-                                            key={`chilrdren_Menu_@${index}`}
+                                            key={`chilrdren_Menu_@${chdMenu.title}_@${index}`}
                                         >
                                             <Link to={chdMenu.path}>
                                                 {chdMenu.name}
@@ -46,7 +46,11 @@ class SideMenu extends Component<Props, State> {
                             </SubMenu>
                         ) : (
                             <MenuItem key={`sub${index}`}>
-                                <Link to={item.path}>{item.name}</Link>
+                                {item.path ? (
+                                    <Link to={item.path} children={item.name} />
+                                ) : (
+                                    <span children={item.name} />
+                                )}
                             </MenuItem>
                         ),
                     )}

@@ -1,41 +1,73 @@
-import { Component, ComponentClass } from 'react';
-import { Radio, RadioProps } from 'antd';
-import { OptionItem } from '@/types/form';
+import { Component } from 'react';
+import type { ComponentClass } from 'react';
+import { Radio } from 'antd';
+import type { RadioProps } from 'antd/lib/radio';
+import type { OptionItem, OptionSource } from '@/types';
+import { distpacthOptions } from '@/utils/form.utils';
 
-type D = OptionItem & {
-    checked?: boolean;
-};
-
-export interface Props extends RadioProps {
+export interface Props extends RadioProps, OptionSource {
     isButton?: boolean;
-    Options: Array<D>;
+    Options: Array<OptionItem>;
 }
 
-interface State {}
+interface State {
+    OptionGroup: Array<OptionItem>;
+    // defalutProps: RadioProps;
+}
 
-const Group = Radio.Group;
+const RGroup = Radio.Group;
 
 const RButton = Radio.Button;
 
 class FormRadio extends Component<Props, State> {
-    public state: State = {};
+    public state: State = {
+        OptionGroup: [],
+        // defalutProps: {}
+    };
+
+    /**
+     * @description 计算属性
+     * @date 2021-09-02
+     * @returns {any}
+     */
+    private init(): void {
+        distpacthOptions(this.props, (IProps) => {
+            const { Options } = IProps;
+            this.setState({ OptionGroup: Options });
+        });
+    }
+
+    public componentDidMount(): void {
+        this.init();
+    }
+
+    // public shouldComponentUpdate(nextProps: any, nextState: any, nextContext: any): boolean {
+    //     this.distrbutionAttr();
+    //     return !0;
+    // }
 
     public render(): JSX.Element {
-        const { isButton, Options, ...GProps } = this.props;
+        const { isButton, Options, Group, ...GProps } = this.props;
         return (
-            <Group {...GProps}>
-                {Options.map((item: D) =>
+            <RGroup {...GProps}>
+                {Options.map((item: OptionItem) =>
                     isButton ? (
-                        <RButton value={item.value} key={item.value}>
-                            {item.label}
-                        </RButton>
+                        <RButton
+                            value={item.value}
+                            key={item.value}
+                            disabled={item.disabled}
+                            children={item.label}
+                        />
                     ) : (
-                        <Radio value={item.value} key={item.value}>
-                            {item.label}
-                        </Radio>
+                        <Radio
+                            value={item.value}
+                            key={item.value}
+                            disabled={item.disabled}
+                            children={item.label}
+                        />
                     ),
                 )}
-            </Group>
+            </RGroup>
         );
     }
 }

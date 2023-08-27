@@ -3,21 +3,24 @@
  */
 import { Redirect } from 'umi';
 import { ReactNode } from 'react';
-import { LocalStore } from '@/utils/storage';
-import { APP_TOKEN } from '@/global';
+import { LocalStore } from '@/utils';
+import { APP_TOKEN, HOME_ROUTER } from '@/global';
+import NProgress from '@/components/nprogress';
 
 interface Props {
     children?: ReactNode;
 }
 
 interface State {}
+
 /**
- * @description router 权限控制
+ * @description router 跳转
  * @date 2021-06-09
  * @returns {any}
  */
-export default (props: Props, state: State): JSX.Element => {
+export default function Auth(props: Props): JSX.Element {
+    NProgress.start();
     const T = LocalStore.getStore(APP_TOKEN);
-    const { children } = props;
-    return !T ? <Redirect to="/login" /> : <>{children}</>;
-};
+    NProgress.done();
+    return <Redirect to={!T ? '/login' : HOME_ROUTER} />;
+}

@@ -1,5 +1,5 @@
 import { Model } from 'dva';
-import { ActPayLoad } from '@/types/schemes';
+import type { ActPayLoad } from '@/types';
 
 /**
  * ref

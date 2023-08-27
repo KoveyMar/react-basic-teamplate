@@ -1,23 +1,35 @@
-import { RouterTypes } from '@/router/router.basic';
+import type { RouterTypes } from '@/types/router';
+// import { LocalStore } from '@/utils';
+// import './menu.u';
 
-const menu: RouterTypes = [
+const menu: Array<RouterTypes> = [
     {
-        path: '/',
-        title: 'data-manange',
-        name: '数据管理',
+        title: 'simulation',
+        name: '管理',
         routes: [
             {
-                path: '/home/dataManageTemplate',
-                title: 'template',
-                name: '模板管理',
-            },
-            {
-                path: '/home/dataManageSource',
-                title: 'dataModel',
-                name: '模型管理',
+                path: '/home',
+                title: 'simulationIns',
+                name: '播放',
             },
         ],
     },
+    {
+        title: 'task-type',
+        name: '测试',
+        routes: [
+            {
+                path: '/home/test',
+                title: 'classify',
+                name: '测试管理',
+            },
+        ],
+    },
+    // {
+    //     title: 'model-view',
+    //     name: '模型',
+    //     // routes: LocalStore.getStore('menu')
+    // }
 ];
 
 export default menu;

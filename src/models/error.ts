@@ -1,24 +1,44 @@
-import { Model } from 'dva';
+import { Model, SubscriptionAPI } from 'dva';
 import { Location } from 'umi';
-import { ActPayLoad, ErrorTypes, SysResponse } from '@/types/schemes';
-import { messageEN } from '@/global/http.status';
+import type { ActPayLoad, ErrorTypes } from '@/types';
+import type { RouterTypes } from '@/types/router';
+import { messageEN } from '@/global';
+import routes from '@/router/router.basic';
 
-async function setMessage(payload: ErrorTypes | void): Promise<SysResponse> {
-    let code = payload?.code || 404;
+async function setMessage(payload: ErrorTypes | void): Promise<ErrorTypes> {
+    const code = payload?.code || 404;
     const message = messageEN[code];
     return {
         code,
-        result: null,
         message,
     };
 }
 
+function InfinityFlatRoute(data: Array<RouterTypes>): Array<any> {
+    const stack: Array<RouterTypes> = Array.from<any>(data);
+    let u: any[] = [];
+    let node: any;
+    while (((node = stack.shift()), node !== void 0)) {
+        const { routes, path } = node;
+        if (routes && routes.length) {
+            stack.push(...routes);
+        }
+        u.push(path);
+    }
+    return u;
+}
+
+const StaticState = {
+    message: '',
+    data: null,
+    code: -1,
+    routers: InfinityFlatRoute(routes),
+} as ErrorTypes;
+
 const error: Model = {
     namespace: 'error',
     state: {
-        message: '',
-        result: null,
-        code: -1,
+        ...StaticState,
     },
     reducers: {
         save(
@@ -28,9 +48,22 @@ const error: Model = {
             const { payload } = action;
             return { ...state, ...payload };
         },
+        AppLocation(
+            state: ErrorTypes,
+            action: ActPayLoad<string, ErrorTypes>,
+        ): ErrorTypes {
+            const { payload } = action;
+            const { routers } = state;
+            const code: number =
+                (routers as any[])?.indexOf(payload) > -1 ? 404 : -1;
+            return { ...state, code };
+        },
     },
     effects: {
-        *getStatus({ payload }, { call, put, select }) {
+        *getStatus(
+            { payload },
+            { call, put, select },
+        ): Generator<any, ErrorTypes, any> {
             const data = yield call(setMessage, payload);
             yield put({
                 type: 'save',
@@ -38,17 +71,31 @@ const error: Model = {
             });
             return data;
         },
+        *getState(
+            { payload },
+            { call, put, select },
+        ): Generator<any, ErrorTypes, any> {
+            yield put({
+                type: 'AppLocation',
+                payload,
+            });
+            return yield select((state: any) => state.error);
+        },
     },
     subscriptions: {
-        setup({ dispatch, history }) {
+        setup({ dispatch, history }: any) {
             return history.listen((location: Location<any>) => {
-                const l = location.pathname.split('/')[1];
-                if (l === 'error') {
-                    dispatch({
-                        type: 'getStatus',
-                        payload: {},
-                    });
-                }
+                //  根据 router.basic,将不存在的路由,跳转到error页
+                const { pathname } = location;
+                dispatch({
+                    type: 'getState',
+                    payload: pathname,
+                }).then((data: ErrorTypes) => {
+                    const { routers } = data;
+                    if ((routers as any[])?.indexOf(pathname) === -1) {
+                        history.push('/404');
+                    }
+                });
             });
         },
     },

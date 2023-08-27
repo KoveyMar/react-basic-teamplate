@@ -1,0 +1,42 @@
+/*
+* Antd CSS reset
+*/
+@HGT100: 100%;
+@themeColor: #1890ff;
+@bdColor: #dbdbdb !important;
+
+/*
+*   Tabs
+*/
+.tabs-bar-normal() {
+    border-color: @bdColor;
+}
+
+//  content in full
+.tabs-full-content {
+    :global(.ant-tabs-tab) {
+        .tabs-bar-normal();
+    }
+
+    :global(.ant-tabs-content-holder) {
+        border-color: @bdColor;
+    }
+
+    :global(.ant-tabs-content) {
+        height: @HGT100 !important;
+    }
+
+    :global(.ant-tabs-tabpane) {
+        height: @HGT100 !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        padding-right: 15px;
+    }
+}
+
+.tabs-clean {
+    :global(.ant-tabs-nav) {
+        margin: 0;
+        padding: 0 10px;
+    }
+}
